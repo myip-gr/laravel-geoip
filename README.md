@@ -109,7 +109,7 @@ php artisan geoip:clear
 
 ### Changelog
 
-Please see [Releases](https://github.com/InteractionDesignFoundation/nova-unlayer-field/releases) for more information on what has changed recently.
+Please see [Releases](https://github.com/InteractionDesignFoundation/laravel-geoip/releases) for more information on what has changed recently.
 
 
 ## Contributing
