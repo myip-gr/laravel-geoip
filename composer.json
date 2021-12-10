@@ -54,7 +54,7 @@
   "scripts": {
     "test": "vendor/bin/phpunit",
     "phpcs": "vendor/bin/phpcs --standard=phpcs.xml src",
-    "phpstan": "vendor/bin/phpstan --level=0 --no-progress analyse src"
+    "phpstan": "vendor/bin/phpstan --level=0 --no-progress analyse --configuration phpstan.neon --memory-limit 2G"
   },
   "extra": {
     "branch-alias": {
