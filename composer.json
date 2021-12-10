@@ -51,9 +51,6 @@
     "phpstan": "vendor/bin/phpstan --level=0 --no-progress analyse --configuration phpstan.neon --memory-limit 2G"
   },
   "extra": {
-    "branch-alias": {
-      "dev-master": "1.0-dev"
-    },
     "laravel": {
       "providers": [
         "InteractionDesignFoundation\\GeoIP\\GeoIPServiceProvider"
