@@ -23,15 +23,6 @@ From the command line run:
 composer require interaction-design-foundation/laravel-geoip
 ```
 
-This package also comes with an optional facade, which provides an easy way to call the class.
-Open up `config/app.php` and find the aliases key.
-
-```php
-'aliases' => [
-    'GeoIP' => \InteractionDesignFoundation\GeoIP\Facades\GeoIP::class,
-];
-```
-
 
 ### Publish the configurations
 
