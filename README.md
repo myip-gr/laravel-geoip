@@ -123,7 +123,7 @@ Many people have contributed to project since its inception.
 
 Thanks to:
 
-- [Daniel Stainback](https://github.com/InteractionDesignFoundation)
+- [Daniel Stainback](https://github.com/Torann) (creator of the original package)
 - [Dwight Watson](https://github.com/dwightwatson)
 - [nikkiii](https://github.com/nikkiii)
 - [jeffhennis](https://github.com/jeffhennis)
