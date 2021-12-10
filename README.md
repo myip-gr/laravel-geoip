@@ -1,5 +1,6 @@
 # GeoIP for Laravel
 
+[![run-tests](https://github.com/InteractionDesignFoundation/laravel-geoip/actions/workflows/run-tests.yml/badge.svg)](https://github.com/InteractionDesignFoundation/laravel-geoip/actions/workflows/run-tests.yml)
 [![Latest Stable Version](https://poser.pugx.org/interaction-design-foundation/laravel-geoip/v/stable.png)](https://packagist.org/packages/interaction-design-foundation/laravel-geoip)
 [![Total Downloads](https://poser.pugx.org/interaction-design-foundation/laravel-geoip/downloads.png)](https://packagist.org/packages/interaction-design-foundation/laravel-geoip)
 
@@ -114,6 +115,16 @@ Some cache drivers offer the ability to clear cached locations:
 ```sh
 php artisan geoip:clear
 ```
+
+### Changelog
+
+Please see [Releases](https://github.com/InteractionDesignFoundation/nova-unlayer-field/releases) for more information on what has changed recently.
+
+
+## Contributing
+
+Please see [CONTRIBUTING](.github/CONTRIBUTING.md) for details.
+
 
 ## Contributions
 
