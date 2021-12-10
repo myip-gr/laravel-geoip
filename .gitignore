@@ -1,6 +1,11 @@
 /vendor
 composer.phar
 composer.lock
+auth.json
+
+phpunit.xml
 .phpunit.result.cache
+
 .DS_Store
-.idea/*
+Thumbs.db
+/.idea
