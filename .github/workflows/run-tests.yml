@@ -8,14 +8,11 @@ jobs:
     strategy:
       fail-fast: true
       matrix:
-        os: [ ubuntu-latest ]
-        php: [ 8.0, 8.1 ]
-        laravel: [ 8.* ]
-        dependency-version: [ prefer-stable ]
-        include:
-          - laravel: 8.*
+        php: [8.2, 8.0]
+        laravel: [^9.0, ^8.0]
+        dependencies: [lowest, highest]
 
-    name: P${{ matrix.php }} - L${{ matrix.laravel }} - ${{ matrix.dependency-version }} - ${{ matrix.os }}
+    name: P${{ matrix.php }} | L${{ matrix.laravel }} | ${{ matrix.dependencies == 'highest' && '↑' || '↓' }}
 
     steps:
       - name: Checkout code
@@ -33,9 +30,13 @@ jobs:
           echo "::add-matcher::${{ runner.tool_cache }}/php.json"
           echo "::add-matcher::${{ runner.tool_cache }}/phpunit.json"
 
-      - name: Install dependencies
-        run: |
-          composer update --${{ matrix.dependency-version }} --prefer-dist --no-interaction
+      - name: Install lowest dependencies from composer.json
+        if: "matrix.dependencies == 'lowest'"
+        run: composer update --prefer-dist --no-interaction --prefer-dist --prefer-stable --prefer-lowest
+
+      - name: Install highest dependencies from composer.json
+        if: "matrix.dependencies == 'highest'"
+        run: composer update --prefer-dist --no-interaction --prefer-dist --prefer-stable
 
       - name: Execute tests
         run: composer test
