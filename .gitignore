@@ -3,9 +3,10 @@ composer.phar
 composer.lock
 auth.json
 
-phpunit.xml
+.phpunit.cache/
 .phpunit.result.cache
 
+# in case a developer don't have global git ignore
 .DS_Store
 Thumbs.db
 /.idea
