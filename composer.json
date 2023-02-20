@@ -1,6 +1,7 @@
 {
   "name": "interaction-design-foundation/laravel-geoip",
   "description": "Support for multiple GeoIP services.",
+  "license": "BSD-2-Clause",
   "keywords": [
     "laravel",
     "geoip",
@@ -10,55 +11,54 @@
     "IP API",
     "infoDB"
   ],
-  "license": "BSD-2-Clause",
   "require": {
     "php": "^8.0",
     "illuminate/cache": "^8.0 || ^9.0 || ^10.0",
     "illuminate/console": "^8.0 || ^9.0 || ^10.0",
     "illuminate/support": "^8.0 || ^9.0 || ^10.0"
   },
+  "require-dev": {
+    "geoip2/geoip2": "~2.1",
+    "mockery/mockery": "^1.4",
+    "phpstan/phpstan": "^1.2",
+    "phpunit/phpunit": "^9.5",
+    "squizlabs/php_codesniffer": "^3.6",
+    "vimeo/psalm": "^5.7",
+    "vlucas/phpdotenv": "^5.0"
+  },
   "suggest": {
     "geoip2/geoip2": "Required to use the MaxMind database or web service with GeoIP (~2.1).",
     "monolog/monolog": "Allows for storing location not found errors to the log"
   },
-  "require-dev": {
-    "phpunit/phpunit": "^9.5",
-    "mockery/mockery": "^1.4",
-    "geoip2/geoip2": "~2.1",
-    "vlucas/phpdotenv": "^5.0",
-    "phpstan/phpstan": "^1.2",
-    "squizlabs/php_codesniffer": "^3.6",
-    "vimeo/psalm": "^5.7"
-  },
   "autoload": {
-    "files": [
-      "src/helpers.php"
-    ],
     "psr-4": {
       "InteractionDesignFoundation\\GeoIP\\": "src/"
-    }
+    },
+    "files": [
+      "src/helpers.php"
+    ]
   },
   "autoload-dev": {
-    "files": [
-      "tests/TestFunctions.php"
-    ],
     "psr-4": {
       "InteractionDesignFoundation\\GeoIP\\Tests\\": "tests/"
-    }
-  },
-  "scripts": {
-    "test": "vendor/bin/phpunit",
-    "phpcs": "vendor/bin/phpcs --standard=phpcs.xml src",
-    "phpstan": "vendor/bin/phpstan --level=0 --no-progress analyse --configuration phpstan.neon --memory-limit 2G"
+    },
+    "files": [
+      "tests/TestFunctions.php"
+    ]
   },
   "extra": {
     "laravel": {
-      "providers": [
-        "InteractionDesignFoundation\\GeoIP\\GeoIPServiceProvider"
-      ],
       "aliases": {
         "GeoIP": "InteractionDesignFoundation\\GeoIP\\Facades\\GeoIP"
-      }
+      },
+      "providers": [
+        "InteractionDesignFoundation\\GeoIP\\GeoIPServiceProvider"
+      ]
     }
+  },
+  "scripts": {
+    "phpcs": "vendor/bin/phpcs --standard=phpcs.xml src",
+    "phpstan": "vendor/bin/phpstan --level=0 --no-progress analyse --configuration phpstan.neon --memory-limit 2G",
+    "test": "vendor/bin/phpunit"
   }
 }
