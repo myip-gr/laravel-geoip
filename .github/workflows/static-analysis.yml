@@ -43,6 +43,8 @@ jobs:
 
       - name: Install composer dependencies
         run: "composer install --no-interaction --no-progress --no-scripts"
+        env:
+          COMPOSER_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       # the way cache keys are set up will always cause a cache miss
       # but will restore the cache generated during the previous run based on partial match
