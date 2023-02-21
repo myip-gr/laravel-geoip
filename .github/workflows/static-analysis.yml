@@ -37,7 +37,7 @@ jobs:
         uses: actions/cache@v3
         with:
           path: ${{ steps.composer-cache.outputs.composer_dir }}
-          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.json') }}
           restore-keys: |
             ${{ runner.os }}-composer-
 
@@ -50,7 +50,7 @@ jobs:
         uses: actions/cache@v3
         with:
           path: ./cache/psalm
-          key: ${{ runner.os }}-psalm-cache-${{ hashFiles('psalm.xml.dist', 'psalm-baseline.xml', './composer.lock') }}
+          key: ${{ runner.os }}-psalm-cache-${{ hashFiles('psalm.xml.dist', 'psalm-baseline.xml', './composer.json') }}
 
       - name: Run Psalm
         run: ./vendor/bin/psalm --find-unused-psalm-suppress --output-format=github --shepherd

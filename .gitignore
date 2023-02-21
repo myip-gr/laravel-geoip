@@ -6,6 +6,8 @@ auth.json
 .phpunit.cache/
 .phpunit.result.cache
 
+psalm.xml
+
 # in case a developer don't have global git ignore
 .DS_Store
 Thumbs.db
