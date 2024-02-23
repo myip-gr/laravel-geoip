@@ -90,6 +90,7 @@ class GeoIP
             $this->config('cache_tags'),
             $this->config('cache_expires', 30)
         );
+        $this->cache->setPrefix((string) $this->config('cache_prefix'));
 
         // Set custom default location
         $this->default_location = array_merge(

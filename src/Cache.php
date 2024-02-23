@@ -20,6 +20,9 @@ class Cache
      */
     protected $expires;
 
+    /** Cache prefix */
+    protected string $prefix = '';
+
     /**
      * Create a new cache instance.
      *
@@ -31,6 +34,13 @@ class Cache
     {
         $this->cache = $tags ? $cache->tags($tags) : $cache;
         $this->expires = $expires;
+
+    }
+
+    /** @internal */
+    public function setPrefix(?string $prefix = null)
+    {
+        $this->prefix = (string) $prefix;
     }
 
     /**
@@ -42,7 +52,7 @@ class Cache
      */
     public function get($name)
     {
-        $value = $this->cache->get($name);
+        $value = $this->cache->get($this->prefix.$name);
 
         return is_array($value)
             ? new Location($value)
@@ -59,7 +69,7 @@ class Cache
      */
     public function set($name, Location $location)
     {
-        return $this->cache->put($name, $location->toArray(), $this->expires);
+        return $this->cache->put($this->prefix.$name, $location->toArray(), $this->expires);
     }
 
     /**
