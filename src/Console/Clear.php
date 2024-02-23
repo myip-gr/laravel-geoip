@@ -32,6 +32,7 @@ class Clear extends Command
 
     /**
      * Execute the console command.
+     * @deprecated Use {@see self::handle()} instead.
      *
      * @return void
      */

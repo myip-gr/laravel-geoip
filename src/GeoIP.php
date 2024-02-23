@@ -20,14 +20,14 @@ class GeoIP
     /**
      * Remote Machine IP address.
      *
-     * @var float
+     * @var string
      */
     protected $remote_ip = null;
 
     /**
      * Current location instance.
      *
-     * @var Location
+     * @var Location|null
      */
     protected $location = null;
 

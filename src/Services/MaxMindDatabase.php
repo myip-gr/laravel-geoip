@@ -26,7 +26,9 @@ class MaxMindDatabase extends AbstractService
 
         // Copy test database for now
         if (is_file($path) === false) {
-            @mkdir(dirname($path));
+            if (!mkdir($concurrentDirectory = dirname($path)) && !is_dir($concurrentDirectory)) {
+                throw new \RuntimeException(sprintf('Directory "%s" was not created', $concurrentDirectory));
+            }
 
             copy(__DIR__ . '/../../resources/geoip.mmdb', $path);
         }
@@ -105,7 +107,9 @@ class MaxMindDatabase extends AbstractService
             unlink($directory);
         }
 
-        mkdir($directory);
+        if (!mkdir($directory) && !is_dir($directory)) {
+            throw new \RuntimeException(sprintf('Directory "%s" was not created', $directory));
+        }
 
         try {
             $callback($directory);
