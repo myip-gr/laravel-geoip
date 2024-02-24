@@ -72,7 +72,9 @@ class HttpClient
      * @param array $query
      * @param array $headers
      *
-     * @return array
+     * @return array{string, array}
+     *
+     * @throws \RuntimeException
      */
     public function execute($method, $url, array $query = [], array $headers = [])
     {
@@ -119,6 +121,10 @@ class HttpClient
         // Make request
         curl_setopt($curl, CURLOPT_HEADER, true);
         $response = curl_exec($curl);
+        if (! is_string($response)) {
+            $curlError = curl_error($curl);
+            throw new \RuntimeException("Failed to make {$method} HTTP request: {$curlError}");
+        }
 
         // Set HTTP response code
         $this->http_code = curl_getinfo($curl, CURLINFO_HTTP_CODE);
