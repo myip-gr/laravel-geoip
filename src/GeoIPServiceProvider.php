@@ -21,9 +21,7 @@ class GeoIPServiceProvider extends ServiceProvider
             $this->registerGeoIpCommands();
         }
 
-        if ($this->isLumen() === false) {
-            $this->mergeConfigFrom(__DIR__ . '/../config/geoip.php', 'geoip');
-        }
+        $this->mergeConfigFrom(__DIR__ . '/../config/geoip.php', 'geoip');
     }
 
     /**
@@ -48,11 +46,9 @@ class GeoIPServiceProvider extends ServiceProvider
      */
     public function registerResources()
     {
-        if ($this->isLumen() === false) {
-            $this->publishes([
-                __DIR__ . '/../config/geoip.php' => config_path('geoip.php'),
-            ], 'config');
-        }
+        $this->publishes([
+            __DIR__ . '/../config/geoip.php' => config_path('geoip.php'),
+        ], 'config');
     }
 
     /**
@@ -66,15 +62,5 @@ class GeoIPServiceProvider extends ServiceProvider
             Console\Update::class,
             Console\Clear::class,
         ]);
-    }
-
-    /**
-     * Check if package is running under Lumen app
-     *
-     * @return bool
-     */
-    protected function isLumen()
-    {
-        return Str::contains($this->app->version(), 'Lumen') === true;
     }
 }

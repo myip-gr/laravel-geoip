@@ -104,26 +104,15 @@ class HttpClient
             CURLOPT_VERBOSE => 1,
         ]);
 
-        // Setup method specific options
-        switch ($method) {
-            case 'PUT':
-            case 'PATCH':
-            case 'POST':
-                curl_setopt_array($curl, [
-                    CURLOPT_CUSTOMREQUEST => $method,
-                    CURLOPT_POST => true,
-                    CURLOPT_POSTFIELDS => $query,
-                ]);
-                break;
-
-            case 'DELETE':
-                curl_setopt($curl, CURLOPT_CUSTOMREQUEST, 'DELETE');
-                break;
-
-            default:
-                curl_setopt($curl, CURLOPT_CUSTOMREQUEST, 'GET');
-                break;
-        }
+        match ($method) {
+            'PUT', 'PATCH', 'POST' => curl_setopt_array($curl, [
+                \CURLOPT_CUSTOMREQUEST => $method,
+                \CURLOPT_POST => true,
+                \CURLOPT_POSTFIELDS => $query,
+            ]),
+            'DELETE' => curl_setopt($curl, CURLOPT_CUSTOMREQUEST, 'DELETE'),
+            default => curl_setopt($curl, CURLOPT_CUSTOMREQUEST, 'GET'),
+        };
 
         // Make request
         curl_setopt($curl, CURLOPT_HEADER, true);
@@ -184,7 +173,7 @@ class HttpClient
      *
      * @return array
      */
-    private function parseHeaders($headers)
+    private function parseHeaders(string $headers): array
     {
         $result = [];
 
@@ -204,12 +193,8 @@ class HttpClient
 
     /**
      * Get request URL.
-     *
-     * @param  string $url
-     *
-     * @return string
      */
-    private function getUrl($url)
+    private function getUrl(string $url): string
     {
         // Check for URL scheme
         if (parse_url($url, PHP_URL_SCHEME) === null) {
@@ -227,7 +212,7 @@ class HttpClient
      *
      * @return string
      */
-    private function buildGetUrl($url, array $query = [])
+    private function buildGetUrl(string $url, array $query = []): string
     {
         // Merge global and request queries
         $query = array_merge(

@@ -6,10 +6,6 @@ use Exception;
 use Illuminate\Support\Arr;
 use InteractionDesignFoundation\GeoIP\Support\HttpClient;
 
-/**
- * Class GeoIP
- * @package InteractionDesignFoundation\GeoIP\Services
- */
 class IPData extends AbstractService
 {
     /**

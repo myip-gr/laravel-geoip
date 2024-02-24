@@ -20,14 +20,14 @@ class GeoIP
     /**
      * Remote Machine IP address.
      *
-     * @var float
+     * @var string
      */
     protected $remote_ip = null;
 
     /**
      * Current location instance.
      *
-     * @var Location
+     * @var Location|null
      */
     protected $location = null;
 
@@ -260,7 +260,7 @@ class GeoIP
      *
      * @return bool
      */
-    private function isValid($ip)
+    private function isValid($ip): bool
     {
         if (! filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4 | FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE)
             && ! filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV6 | FILTER_FLAG_NO_PRIV_RANGE)
@@ -279,7 +279,7 @@ class GeoIP
      *
      * @return bool
      */
-    private function shouldCache(Location $location, $ip = null)
+    private function shouldCache(Location $location, $ip = null): bool
     {
         if ($location->default === true || $location->cached === true) {
             return false;

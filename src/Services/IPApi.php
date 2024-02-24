@@ -130,13 +130,13 @@ class IPApi extends AbstractService
     }
 
     /**
-     * Get continent based on country code.
+     * Get a continent based on country code.
      *
      * @param string $code
      *
      * @return string
      */
-    private function getContinent($code)
+    private function getContinent(string $code): string
     {
         return Arr::get($this->continents, $code, 'Unknown');
     }

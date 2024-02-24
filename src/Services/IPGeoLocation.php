@@ -3,7 +3,6 @@
 namespace InteractionDesignFoundation\GeoIP\Services;
 
 use Exception;
-use Illuminate\Support\Arr;
 use InteractionDesignFoundation\GeoIP\Support\HttpClient;
 
 class IPGeoLocation extends AbstractService
