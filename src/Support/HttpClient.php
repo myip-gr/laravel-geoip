@@ -123,7 +123,7 @@ class HttpClient
         $response = curl_exec($curl);
         if (! is_string($response)) {
             $curlError = curl_error($curl);
-            throw new \RuntimeException("Failed to make $method HTTP request: $curlError");
+            throw new \RuntimeException("Failed to make {$method} HTTP request: {$curlError}");
         }
 
         // Set HTTP response code
