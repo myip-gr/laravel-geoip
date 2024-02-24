@@ -76,7 +76,7 @@ class MaxMindDatabase extends AbstractService
         $this->withTemporaryDirectory(function ($directory) {
             $tarFile = sprintf('%s/maxmind.tar.gz', $directory);
 
-            file_put_contents($tarFile, fopen($this->config('update_url'), 'r'));
+            file_put_contents($tarFile, fopen($this->config('update_url'), 'rb'));
 
             $archive = new PharData($tarFile);
 
@@ -86,7 +86,7 @@ class MaxMindDatabase extends AbstractService
 
             $archive->extractTo($directory, $relativePath);
 
-            file_put_contents($this->config('database_path'), fopen("{$directory}/{$relativePath}", 'r'));
+            file_put_contents($this->config('database_path'), fopen("{$directory}/{$relativePath}", 'rb'));
         });
 
         return "Database file ({$this->config('database_path')}) updated.";
@@ -134,7 +134,7 @@ class MaxMindDatabase extends AbstractService
                 return $this->findDatabaseFile(new PharData($file->getPathName()));
             }
 
-            if (pathinfo($file, PATHINFO_EXTENSION) === 'mmdb') {
+            if (pathinfo($file, \PATHINFO_EXTENSION) === 'mmdb') {
                 return $file;
             }
         }
