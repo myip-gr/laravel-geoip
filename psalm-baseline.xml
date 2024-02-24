@@ -222,28 +222,14 @@
     </MixedArgumentTypeCoercion>
     <MixedAssignment>
       <code><![CDATA[$base['query']['key']]]></code>
-      <code><![CDATA[$json]]></code>
       <code><![CDATA[$path]]></code>
       <code><![CDATA[$this->continents]]></code>
     </MixedAssignment>
     <MixedInferredReturnType>
       <code><![CDATA[string]]></code>
     </MixedInferredReturnType>
-    <MixedOperand>
-      <code><![CDATA[$json->message]]></code>
-    </MixedOperand>
     <MixedPropertyFetch>
-      <code><![CDATA[$json->city]]></code>
-      <code><![CDATA[$json->country]]></code>
-      <code><![CDATA[$json->countryCode]]></code>
-      <code><![CDATA[$json->lat]]></code>
-      <code><![CDATA[$json->lon]]></code>
       <code><![CDATA[$json->message]]></code>
-      <code><![CDATA[$json->region]]></code>
-      <code><![CDATA[$json->regionName]]></code>
-      <code><![CDATA[$json->status]]></code>
-      <code><![CDATA[$json->timezone]]></code>
-      <code><![CDATA[$json->zip]]></code>
     </MixedPropertyFetch>
     <MixedReturnStatement>
       <code><![CDATA[Arr::get($this->continents, $code, 'Unknown')]]></code>
