@@ -56,23 +56,29 @@ class IPApi extends AbstractService
         }
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     * @throws \RuntimeException
+     */
     public function locate($ip)
     {
-        // Get data from client
+        // Get data from the client
         $data = $this->client->get('json/' . $ip);
 
         // Verify server response
         if ($this->client->getErrors() !== null) {
-            throw new Exception('Request failed (' . $this->client->getErrors() . ')');
+            throw new \RuntimeException("Unexpected ip-api.com response: {$this->client->getErrors()}");
         }
 
         // Parse body content
         $json = json_decode($data[0]);
+        if (! is_object($json) || ! property_exists($json, 'status')) {
+            throw new \RuntimeException("Unexpected ip-api.com response: {$json->message}");
+        }
 
         // Verify response status
         if ($json->status !== 'success') {
-            throw new Exception('Request failed (' . $json->message . ')');
+            throw new \RuntimeException("Failed ip-api.com response: {$json->message}");
         }
 
         return $this->hydrate([
