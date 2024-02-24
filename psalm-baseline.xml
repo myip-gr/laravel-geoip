@@ -8,7 +8,7 @@
       <code><![CDATA[$this->cache->flush()]]></code>
     </MixedReturnStatement>
     <PossiblyInvalidPropertyAssignmentValue>
-      <code><![CDATA[$tags ? $cache->tags($tags) : $cache]]></code>
+      <code><![CDATA[($tags === [] || !$cache->supportsTags()) ? $cache : $cache->tags($tags)]]></code>
     </PossiblyInvalidPropertyAssignmentValue>
   </file>
   <file src="src/Console/Clear.php">
