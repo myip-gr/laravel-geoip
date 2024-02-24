@@ -28,6 +28,7 @@ class TestCase extends PHPUnitTestCase
     protected function makeGeoIP(array $config = [], $cacheMock = null)
     {
         $cacheMock = $cacheMock ?: Mockery::mock(CacheManager::class);
+        $cacheMock->shouldReceive('supportsTags')->andReturn(false);
 
         $config = array_merge($this->getConfig(), $config);
 
