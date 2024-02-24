@@ -34,11 +34,13 @@ class Cache
     {
         $this->cache = $tags ? $cache->tags($tags) : $cache;
         $this->expires = $expires;
-
     }
 
-    /** @internal */
-    public function setPrefix(?string $prefix = null)
+    /**
+     * @internal A hack to support prefixes. Added as a setter to avoid BC breaks.
+     * @deprecated Will be removed in v2.0
+     */
+    public function setPrefix(?string $prefix = null): void
     {
         $this->prefix = (string) $prefix;
     }
