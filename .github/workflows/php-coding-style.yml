@@ -1,0 +1,27 @@
+name: Coding style
+
+on:
+  push:
+    paths:
+      - '**.php'
+      - '.composer.json'
+      - '.php_cs'
+      - '.github/workflows/php-coding-style.yml'
+
+jobs:
+  style:
+    runs-on: ubuntu-latest
+
+    steps:
+      -   name: Checkout code
+          uses: actions/checkout@v4
+
+      -   name: Fix style
+          uses: docker://oskarstark/php-cs-fixer-ga
+          with:
+            args: --config=.php-cs-fixer.php --allow-risky=yes
+
+      -   name: Commit changes
+          uses: stefanzweifel/git-auto-commit-action@v5
+          with:
+            commit_message: Fix coding style

@@ -18,6 +18,7 @@
     "illuminate/support": "^10.0 || ^11.0"
   },
   "require-dev": {
+    "friendsofphp/php-cs-fixer": "^3.50",
     "geoip2/geoip2": "^2.11",
     "mockery/mockery": "^1.6",
     "phpstan/phpstan": "^1.10",
@@ -46,6 +47,9 @@
       "tests/TestFunctions.php"
     ]
   },
+  "config": {
+    "sort-packages": true
+  },
   "extra": {
     "laravel": {
       "aliases": {
@@ -57,6 +61,8 @@
     }
   },
   "scripts": {
+    "cs": "@php-cs-fixer",
+    "php-cs-fixer": "@php -d memory_limit=-1 vendor/bin/php-cs-fixer fix --no-interaction --ansi --verbose",
     "phpcs": "vendor/bin/phpcs --standard=phpcs.xml src",
     "phpstan": "vendor/bin/phpstan --level=0 --no-progress analyse --configuration phpstan.neon --memory-limit 2G",
     "psalm": "vendor/bin/psalm",
