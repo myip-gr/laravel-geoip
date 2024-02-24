@@ -15,6 +15,9 @@
     </PossiblyInvalidPropertyAssignmentValue>
   </file>
   <file src="src/Console/Clear.php">
+    <DeprecatedMethod>
+      <code><![CDATA[fire]]></code>
+    </DeprecatedMethod>
     <InvalidReturnStatement>
       <code><![CDATA[$this->output->error('Default cache system does not support tags')]]></code>
     </InvalidReturnStatement>
@@ -37,6 +40,9 @@
     </UndefinedFunction>
   </file>
   <file src="src/Console/Update.php">
+    <DeprecatedMethod>
+      <code><![CDATA[fire]]></code>
+    </DeprecatedMethod>
     <MixedArgument>
       <code><![CDATA[$result]]></code>
       <code><![CDATA[$service]]></code>
