@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace InteractionDesignFoundation\GeoIP\Contracts;
 
+/**
+ * @psalm-import-type LocationArray from \InteractionDesignFoundation\GeoIP\Location
+ */
 interface ServiceInterface
 {
     /**
@@ -27,6 +30,7 @@ interface ServiceInterface
      * Create a location instance from the provided attributes.
      *
      * @param array $attributes
+     * @psalm-param LocationArray $attributes
      *
      * @return \InteractionDesignFoundation\GeoIP\Location
      */

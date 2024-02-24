@@ -26,6 +26,24 @@ use Illuminate\Support\Arr;
  * @property bool $default
  * @property bool $cached
  * @property-read string $displayName {@see static::getDisplayNameAttribute()}
+ *
+ * @psalm-type LocationArray = array{
+ *     ip: string,
+ *     iso_code: string|null,
+ *     country: string|null,
+ *     city: string|null,
+ *     state: string|null,
+ *     state_name: string|null,
+ *     postal_code: string|null,
+ *     lat: float|null,
+ *     lon: float|null,
+ *     timezone: string|null,
+ *     continent: string|null,
+ *     currency?: string|null,
+ *     default?: bool,
+ *     cached?: bool,
+ * }
+ * How to use it: @@psalm-import-type LocationArray from \InteractionDesignFoundation\GeoIP\Location
  */
 class Location implements ArrayAccess
 {
@@ -40,6 +58,7 @@ class Location implements ArrayAccess
      * Create a new location instance.
      *
      * @param array $attributes
+     * @psalm-param LocationArray $attributes
      */
     public function __construct(array $attributes = [])
     {

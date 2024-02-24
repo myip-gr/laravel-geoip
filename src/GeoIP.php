@@ -10,6 +10,9 @@ use Illuminate\Support\Arr;
 use Illuminate\Cache\CacheManager;
 use Monolog\Handler\StreamHandler;
 
+/**
+ * @psalm-import-type LocationArray from \InteractionDesignFoundation\GeoIP\Location
+ */
 class GeoIP
 {
     /**

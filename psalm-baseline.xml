@@ -1,9 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <files psalm-version="5.22.2@d768d914152dbbf3486c36398802f74e80cfde48">
   <file src="src/Cache.php">
-    <MixedAssignment>
-      <code><![CDATA[$value]]></code>
-    </MixedAssignment>
     <MixedInferredReturnType>
       <code><![CDATA[bool]]></code>
     </MixedInferredReturnType>
@@ -64,6 +61,12 @@
       <code><![CDATA[Update]]></code>
     </PropertyNotSetInConstructor>
   </file>
+  <file src="src/Contracts/ServiceInterface.php">
+    <InvalidParamDefault>
+      <code><![CDATA[LocationArray]]></code>
+      <code><![CDATA[LocationArray]]></code>
+    </InvalidParamDefault>
+  </file>
   <file src="src/GeoIP.php">
     <DeprecatedMethod>
       <code><![CDATA[setPrefix]]></code>
@@ -94,6 +97,9 @@
       <code><![CDATA[$this->config('cache_tags')]]></code>
       <code><![CDATA[$this->config('default_location', [])]]></code>
     </MixedArgument>
+    <MixedArgumentTypeCoercion>
+      <code><![CDATA[$this->default_location]]></code>
+    </MixedArgumentTypeCoercion>
     <MixedAssignment>
       <code><![CDATA[$class]]></code>
       <code><![CDATA[$config]]></code>
@@ -166,6 +172,9 @@
     </UndefinedFunction>
   </file>
   <file src="src/Location.php">
+    <InvalidParamDefault>
+      <code><![CDATA[LocationArray]]></code>
+    </InvalidParamDefault>
     <MissingParamType>
       <code><![CDATA[$key]]></code>
       <code><![CDATA[$value]]></code>
@@ -196,6 +205,21 @@
       <code><![CDATA[$this->config('continent_path')]]></code>
       <code><![CDATA[$this->config('continent_path')]]></code>
     </MixedArgument>
+    <MixedArgumentTypeCoercion>
+      <code><![CDATA[[
+            'ip' => $ip,
+            'iso_code' => $json->countryCode,
+            'country' => $json->country,
+            'city' => $json->city,
+            'state' => $json->region,
+            'state_name' => $json->regionName,
+            'postal_code' => $json->zip,
+            'lat' => $json->lat,
+            'lon' => $json->lon,
+            'timezone' => $json->timezone,
+            'continent' => $this->getContinent($json->countryCode),
+        ]]]></code>
+    </MixedArgumentTypeCoercion>
     <MixedAssignment>
       <code><![CDATA[$base['query']['key']]]></code>
       <code><![CDATA[$json]]></code>
@@ -242,6 +266,22 @@
       <code><![CDATA[$json]]></code>
       <code><![CDATA[$json]]></code>
     </MixedArgument>
+    <MixedArgumentTypeCoercion>
+      <code><![CDATA[[
+            'ip' => $ip,
+            'iso_code' => $json['country_code'],
+            'country' => $json['country_name'],
+            'city' => $json['city'],
+            'state' => $json['region_code'],
+            'state_name' => $json['region'],
+            'postal_code' => $json['postal'],
+            'lat' => $json['latitude'],
+            'lon' => $json['longitude'],
+            'timezone' => Arr::get($json, 'time_zone.name'),
+            'continent' => Arr::get($json, 'continent_code'),
+            'currency' => Arr::get($json, 'currency.code'),
+        ]]]></code>
+    </MixedArgumentTypeCoercion>
     <MixedArrayAccess>
       <code><![CDATA[$json['city']]]></code>
       <code><![CDATA[$json['country_code']]]></code>
@@ -287,30 +327,25 @@
     </RedundantConditionGivenDocblockType>
   </file>
   <file src="src/Services/MaxMindDatabase.php">
-    <ImplicitToStringCast>
-      <code><![CDATA[$file]]></code>
-    </ImplicitToStringCast>
     <MissingClosureParamType>
       <code><![CDATA[$directory]]></code>
     </MissingClosureParamType>
     <MixedArgument>
       <code><![CDATA[$directory]]></code>
       <code><![CDATA[$directory]]></code>
-      <code><![CDATA[$path]]></code>
-      <code><![CDATA[$path]]></code>
-      <code><![CDATA[$path]]></code>
-      <code><![CDATA[$path]]></code>
       <code><![CDATA[$this->config('database_path')]]></code>
       <code><![CDATA[$this->config('locales', ['en'])]]></code>
       <code><![CDATA[$this->config('update_url')]]></code>
     </MixedArgument>
     <MixedAssignment>
       <code><![CDATA[$file]]></code>
-      <code><![CDATA[$path]]></code>
     </MixedAssignment>
     <MixedMethodCall>
       <code><![CDATA[getFilename]]></code>
     </MixedMethodCall>
+    <PossiblyInvalidArgument>
+      <code><![CDATA[$file]]></code>
+    </PossiblyInvalidArgument>
     <PossiblyInvalidMethodCall>
       <code><![CDATA[getPathName]]></code>
       <code><![CDATA[isDir]]></code>
@@ -327,12 +362,7 @@
     <DocblockTypeContradiction>
       <code><![CDATA[is_null($this->errors)]]></code>
     </DocblockTypeContradiction>
-    <InvalidScalarArgument>
-      <code><![CDATA[$response]]></code>
-      <code><![CDATA[$response]]></code>
-    </InvalidScalarArgument>
     <MixedArgument>
-      <code><![CDATA[$header_size]]></code>
       <code><![CDATA[$header_size]]></code>
       <code><![CDATA[Arr::get($this->config, 'headers', [])]]></code>
       <code><![CDATA[Arr::get($this->config, 'query', [])]]></code>
@@ -355,7 +385,7 @@
   </file>
   <file src="src/helpers.php">
     <MixedInferredReturnType>
-      <code><![CDATA[\InteractionDesignFoundation\GeoIP\GeoIP|\InteractionDesignFoundation\GeoIP\Location]]></code>
+      <code><![CDATA[($ip is null ? \InteractionDesignFoundation\GeoIP\GeoIP : \InteractionDesignFoundation\GeoIP\Location)]]></code>
     </MixedInferredReturnType>
     <MixedMethodCall>
       <code><![CDATA[getLocation]]></code>

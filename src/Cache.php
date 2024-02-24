@@ -6,6 +6,9 @@ namespace InteractionDesignFoundation\GeoIP;
 
 use Illuminate\Cache\CacheManager;
 
+/**
+ * @psalm-import-type LocationArray from \InteractionDesignFoundation\GeoIP\Location
+ */
 class Cache
 {
     /**
@@ -56,6 +59,7 @@ class Cache
      */
     public function get($name)
     {
+        /** @psalm-var LocationArray|null $value */
         $value = $this->cache->get($this->prefix . $name);
 
         return is_array($value)
