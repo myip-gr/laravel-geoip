@@ -43,9 +43,9 @@ To find out more simple open the `config/geoip.php` file.
 
 ### Service Configuration
 
-To simplify and keep things clean, all third party composer packages, that are needed for a service, are installed separately.
+To simplify and keep things clean, all third party composer packages, which are needed for a service, are installed separately.
 
-For further configuration options checkout the services page.
+For further configuration options, checkout the [services page](./docs/services.md).
 
 
 ### Caching Configuration
@@ -54,9 +54,9 @@ GeoIP uses Laravel’s default caching to store queried IP locations.
 This is done to reduce the number of calls made to the selected service, as some of them are rate limited.
 
 Options:
- - `all` all location are cached
+ - `all` all locations are cached
  - `some` cache only the requesting user
- - `none` caching is completely disable
+ - `none` caching is completely disabled
 
 
 ## Usage
@@ -70,36 +70,37 @@ geoip()->getLocation('27.974.399.65'); // Get the location from the provided IP.
 geoip()->getClientIP(); // Will return the user IP address.
 ```
 
-Example of Location object:
+Example of a `Location` object:
 ```php
-\InteractionDesignFoundation\GeoIP\Location {
-[
-        'ip'           => '1.1.1.1',
-        'iso_code'     => 'US',
-        'country'      => 'United States',
-        'city'         => 'New Haven',
-        'state'        => 'CT',
-        'state_name'   => 'Connecticut',
-        'postal_code'  => '06510',
-        'lat'          => 41.28,
-        'lon'          => -72.88,
-        'timezone'     => 'America/New_York',
-        'continent'    => 'NA',
-        'currency'     => 'USD',
-        'default'      => false,
-    ]
-}
+\InteractionDesignFoundation\GeoIP\Location {[
+    'ip'           => '1.1.1.1',
+    'iso_code'     => 'US',
+    'country'      => 'United States',
+    'city'         => 'New Haven',
+    'state'        => 'CT',
+    'state_name'   => 'Connecticut',
+    'postal_code'  => '06510',
+    'lat'          => 41.28,
+    'lon'          => -72.88,
+    'timezone'     => 'America/New_York',
+    'continent'    => 'NA',
+    'currency'     => 'USD',
+    'default'      => false,
+]}
 ```
 
-`Location` class implements `\ArrayAccess` interface, means you can access properties of the `Location` object using array access syntax:
+`Location` class implements `\ArrayAccess` interface, means you can access properties of the `Location` object using both object and array access:
 ```php
 $location = geoip()->getLocation();
+
+$city = $location->city;
+// The same as:
 $city = $location['city'];
 ```
 
 ### Artisan
 
-Some services require downloading and use local database to detect Location by IP address.
+Some services require downloading and use a local database to detect Location by IP address.
 There is a console command to download/update database:
 ```sh
 php artisan geoip:update
