@@ -19,7 +19,6 @@ $finder = \PhpCsFixer\Finder::create()
 
 return (new \PhpCsFixer\Config())
     ->setUsingCache(true)
-    ->setCacheFile('./cache/.php-cs-fixer.cache')
     ->setRiskyAllowed(true)
     ->setIndent('    ')
     ->setLineEnding("\n")
