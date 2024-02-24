@@ -105,9 +105,8 @@ class Location implements ArrayAccess
 
         // First we will check for the presence of a mutator for the set operation
         // which simply lets the developers tweak the attribute as it is set.
-        if (method_exists($this, 'get' . Str::studly($key) . 'Attribute')) {
-            $method = 'get' . Str::studly($key) . 'Attribute';
-
+        $method = 'get' . Str::studly($key) . 'Attribute';
+        if (method_exists($this, $method)) {
             return $this->{$method}($value);
         }
 
