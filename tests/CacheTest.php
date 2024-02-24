@@ -6,9 +6,7 @@ use Mockery;
 
 class CacheTest extends TestCase
 {
-    /**
-     * @test
-     */
+    /** @test */
     public function shouldReturnValidLocation()
     {
         $data = [
@@ -34,9 +32,7 @@ class CacheTest extends TestCase
         $this->assertEquals($location->default, false);
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function shouldReturnInvalidLocation()
     {
         $cacheMock = Mockery::mock('Illuminate\Cache\CacheManager')
@@ -55,9 +51,7 @@ class CacheTest extends TestCase
         $this->assertEquals($geo_ip->getCache()->get('81.2.69.142'), null);
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function shouldSetLocation()
     {
         $location = new \InteractionDesignFoundation\GeoIP\Location([
@@ -83,9 +77,7 @@ class CacheTest extends TestCase
         $this->assertEquals($geo_ip->getCache()->set('81.2.69.142', $location), null);
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function shouldFlushLocations()
     {
         $cacheMock = Mockery::mock('Illuminate\Cache\CacheManager')
