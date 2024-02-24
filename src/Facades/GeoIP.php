@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Facade;
 
 /**
  * @method static \InteractionDesignFoundation\GeoIP\Location getLocation(string|null $ip)
+ * @method static string getClientIP()
  * @method static string getCurrency(string $iso)
  * @method static \InteractionDesignFoundation\GeoIP\Contracts\ServiceInterface getService()
  * @mixin \InteractionDesignFoundation\GeoIP\GeoIP
