@@ -133,7 +133,7 @@ class GeoIP
      * @return \InteractionDesignFoundation\GeoIP\Location
      * @throws \Exception
      */
-    private function find($ip = null)
+    private function find($ip = null): Location
     {
         // If IP not set, user remote IP
         $ip = $ip ?: $this->remote_ip;

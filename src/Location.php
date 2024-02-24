@@ -25,6 +25,7 @@ use Illuminate\Support\Arr;
  * @property string|null $currency
  * @property bool $default
  * @property bool $cached
+ * @property-read string $displayName {@see static::getDisplayNameAttribute()}
  */
 class Location implements ArrayAccess
 {
