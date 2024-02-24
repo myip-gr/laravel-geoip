@@ -25,9 +25,8 @@ class CacheTest extends TestCase
         $cacheMock = Mockery::mock(CacheManager::class)
             ->shouldAllowMockingProtectedMethods();
 
-        $cacheMock->shouldReceive('get')
-            ->with($data['ip'])
-            ->andReturn($data);
+        $cacheMock->shouldReceive('supportsTags')->andReturn(false);
+        $cacheMock->shouldReceive('get')->with($data['ip'])->andReturn($data);
 
         $geo_ip = $this->makeGeoIP([], $cacheMock);
         $geo_ip->getCache()->setPrefix('');
@@ -45,16 +44,12 @@ class CacheTest extends TestCase
         $cacheMock = Mockery::mock(CacheManager::class)
             ->shouldAllowMockingProtectedMethods();
 
+        $cacheMock->shouldReceive('supportsTags')->andReturn(false);
+
         $geo_ip = $this->makeGeoIP([], $cacheMock);
         $geo_ip->getCache()->setPrefix('');
 
-        $cacheMock->shouldReceive('get')
-            ->with('81.2.69.142')
-            ->andReturn(null);
-
-        $cacheMock->shouldReceive('tags')
-            ->with($geo_ip->config('cache_tags'))
-            ->andReturnSelf();
+        $cacheMock->shouldReceive('get')->with('81.2.69.142')->andReturn(null);
 
         $this->assertSame($geo_ip->getCache()->get('81.2.69.142'), null);
     }
@@ -72,12 +67,12 @@ class CacheTest extends TestCase
         $cacheMock = Mockery::mock(CacheManager::class)
             ->shouldAllowMockingProtectedMethods();
 
+        $cacheMock->shouldReceive('supportsTags')->andReturn(false);
+
         $geo_ip = $this->makeGeoIP([], $cacheMock);
         $geo_ip->getCache()->setPrefix('');
 
-        $cacheMock->shouldReceive('put')
-            ->withArgs(['81.2.69.142', $location->toArray(), $geo_ip->config('cache_expires')])
-            ->andReturn(null);
+        $cacheMock->shouldReceive('put')->withArgs(['81.2.69.142', $location->toArray(), $geo_ip->config('cache_expires')])->andReturn(null);
 
         $cacheMock->shouldReceive('tags')
             ->with($geo_ip->config('cache_tags'))
@@ -94,12 +89,10 @@ class CacheTest extends TestCase
 
         $geo_ip = $this->makeGeoIP([], $cacheMock);
 
-        $cacheMock->shouldReceive('flush')
-            ->andReturn(true);
+        $cacheMock->shouldReceive('flush')->andReturn(true);
 
-        $cacheMock->shouldReceive('tags')
-            ->with($geo_ip->config('cache_tags'))
-            ->andReturnSelf();
+        $cacheMock->shouldReceive('tags')->with($geo_ip->config('cache_tags'))->andReturnSelf();
+        $cacheMock->shouldReceive('tags')->with($geo_ip->config('cache_tags'))->andReturnSelf();
 
         $this->assertSame($geo_ip->getCache()->flush(), true);
     }

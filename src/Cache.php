@@ -37,7 +37,7 @@ class Cache
      */
     public function __construct(CacheManager $cache, $tags, $expires = 30)
     {
-        $this->cache = $tags ? $cache->tags($tags) : $cache;
+        $this->cache = ($tags === [] || !$cache->supportsTags()) ? $cache : $cache->tags($tags);
         $this->expires = $expires;
     }
 
