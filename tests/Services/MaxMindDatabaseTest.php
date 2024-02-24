@@ -6,9 +6,7 @@ use InteractionDesignFoundation\GeoIP\Tests\TestCase;
 
 class MaxMindDatabaseTest extends TestCase
 {
-    /**
-     * @test
-     */
+    /** @test */
     public function shouldReturnConfigValue()
     {
         list($service, $config) = $this->getService();
@@ -16,12 +14,10 @@ class MaxMindDatabaseTest extends TestCase
         $this->assertEquals($service->config('database_path'), $config['database_path']);
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function shouldReturnValidLocation()
     {
-        list($service, $config) = $this->getService();
+        [$service] = $this->getService();
 
         $location = $service->locate('81.2.69.142');
 
@@ -30,12 +26,10 @@ class MaxMindDatabaseTest extends TestCase
         $this->assertEquals($location->default, false);
     }
 
-    /**
-     * @test
-     */
-    public function shouldReturnInvalidLocation()
+    /** @test */
+    public function shouldReturnInvalidLocationForSpecialAddresses()
     {
-        list($service, $config) = $this->getService();
+        [$service] = $this->getService();
 
         try {
             $location = $service->locate('1.1.1.1');
@@ -46,7 +40,8 @@ class MaxMindDatabaseTest extends TestCase
         }
     }
 
-    protected function getService()
+    /** @return list{\InteractionDesignFoundation\GeoIP\Contracts\ServiceInterface, array<string, mixed>} */
+    protected function getService(): array
     {
         $config = $this->getConfig()['services']['maxmind_database'];
 

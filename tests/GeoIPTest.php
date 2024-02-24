@@ -6,9 +6,7 @@ use Mockery;
 
 class GeoIPTest extends TestCase
 {
-    /**
-     * @test
-     */
+    /** @test */
     public function shouldGetUSDCurrency()
     {
         $geo_ip = $this->makeGeoIP();
@@ -16,9 +14,7 @@ class GeoIPTest extends TestCase
         $this->assertEquals($geo_ip->getCurrency('US'), 'USD');
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function testGetService()
     {
         $geo_ip = $this->makeGeoIP([
@@ -32,9 +28,7 @@ class GeoIPTest extends TestCase
         $this->assertInstanceOf(\InteractionDesignFoundation\GeoIP\Contracts\ServiceInterface::class, $geo_ip->getService());
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function testGetCache()
     {
         $geo_ip = $this->makeGeoIP();

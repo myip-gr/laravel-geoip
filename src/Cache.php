@@ -20,6 +20,9 @@ class Cache
      */
     protected $expires;
 
+    /** Cache prefix */
+    protected string $prefix = '';
+
     /**
      * Create a new cache instance.
      *
@@ -34,6 +37,15 @@ class Cache
     }
 
     /**
+     * @internal A hack to support prefixes. Added as a setter to avoid BC breaks.
+     * @deprecated Will be removed in v2.0
+     */
+    public function setPrefix(?string $prefix = null): void
+    {
+        $this->prefix = (string) $prefix;
+    }
+
+    /**
      * Get an item from the cache.
      *
      * @param string $name
@@ -42,7 +54,7 @@ class Cache
      */
     public function get($name)
     {
-        $value = $this->cache->get($name);
+        $value = $this->cache->get($this->prefix.$name);
 
         return is_array($value)
             ? new Location($value)
@@ -59,7 +71,7 @@ class Cache
      */
     public function set($name, Location $location)
     {
-        return $this->cache->put($name, $location->toArray(), $this->expires);
+        return $this->cache->put($this->prefix.$name, $location->toArray(), $this->expires);
     }
 
     /**

@@ -65,6 +65,9 @@
     </PropertyNotSetInConstructor>
   </file>
   <file src="src/GeoIP.php">
+    <DeprecatedMethod>
+      <code><![CDATA[setPrefix]]></code>
+    </DeprecatedMethod>
     <DocblockTypeContradiction>
       <code><![CDATA[$this->currencies === null]]></code>
       <code><![CDATA[$this->service === null]]></code>
