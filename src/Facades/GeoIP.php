@@ -4,6 +4,9 @@ namespace InteractionDesignFoundation\GeoIP\Facades;
 
 use Illuminate\Support\Facades\Facade;
 
+/**
+ * @mixin \InteractionDesignFoundation\GeoIP\GeoIP
+ */
 class GeoIP extends Facade
 {
     /**

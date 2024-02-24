@@ -23,8 +23,6 @@ use Illuminate\Support\Arr;
  * @property string|null $currency
  * @property bool $default
  * @property bool $cached
- *
- * @package InteractionDesignFoundation\GeoIP
  */
 class Location implements ArrayAccess
 {
