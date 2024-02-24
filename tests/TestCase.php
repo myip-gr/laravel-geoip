@@ -2,6 +2,7 @@
 
 namespace InteractionDesignFoundation\GeoIP\Tests;
 
+use Illuminate\Cache\CacheManager;
 use Mockery;
 use PHPUnit\Framework\TestCase as PHPUnitTestCase;
 
@@ -21,7 +22,7 @@ class TestCase extends PHPUnitTestCase
 
     protected function makeGeoIP(array $config = [], $cacheMock = null)
     {
-        $cacheMock = $cacheMock ?: Mockery::mock('Illuminate\Cache\CacheManager');
+        $cacheMock = $cacheMock ?: Mockery::mock(CacheManager::class);
 
         $config = array_merge($this->getConfig(), $config);
 

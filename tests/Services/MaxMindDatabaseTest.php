@@ -17,7 +17,7 @@ class MaxMindDatabaseTest extends TestCase
     /** @test */
     public function shouldReturnValidLocation()
     {
-        list($service, $config) = $this->getService();
+        [$service] = $this->getService();
 
         $location = $service->locate('81.2.69.142');
 
@@ -27,9 +27,9 @@ class MaxMindDatabaseTest extends TestCase
     }
 
     /** @test */
-    public function shouldReturnInvalidLocation()
+    public function shouldReturnInvalidLocationForSpecialAddresses()
     {
-        list($service, $config) = $this->getService();
+        [$service] = $this->getService();
 
         try {
             $location = $service->locate('1.1.1.1');
