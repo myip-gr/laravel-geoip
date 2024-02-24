@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace InteractionDesignFoundation\GeoIP\Tests;
 
 use Illuminate\Cache\CacheManager;
+use InteractionDesignFoundation\GeoIP\GeoIP;
 use Mockery;
 use PHPUnit\Framework\TestCase as PHPUnitTestCase;
 
@@ -25,7 +26,7 @@ class TestCase extends PHPUnitTestCase
         Mockery::close();
     }
 
-    protected function makeGeoIP(array $config = [], $cacheMock = null)
+    protected function makeGeoIP(array $config = [], $cacheMock = null): GeoIP
     {
         $cacheMock = $cacheMock ?: Mockery::mock(CacheManager::class);
         $cacheMock->shouldReceive('supportsTags')->andReturn(false);
@@ -34,10 +35,10 @@ class TestCase extends PHPUnitTestCase
 
         $cacheMock->shouldReceive('tags')->with(['laravel-geoip-location'])->andReturnSelf();
 
-        return new \InteractionDesignFoundation\GeoIP\GeoIP($config, $cacheMock);
+        return new GeoIP($config, $cacheMock);
     }
 
-    protected function getConfig()
+    protected function getConfig(): array
     {
         $config = include(__DIR__ . '/../config/geoip.php');
 
@@ -46,17 +47,12 @@ class TestCase extends PHPUnitTestCase
         return $config;
     }
 
-    /**
-     * Check for test database and make a copy of it
-     * if it does not exist.
-     *
-     * @param string $database
-     */
-    protected function databaseCheck($database)
+    /** Check for a test database and make a copy of it if it does not exist.*/
+    protected function databaseCheck(string $databaseFilepath): void
     {
-        if (file_exists($database) === false) {
-            @mkdir(dirname($database), 0755, true);
-            copy(__DIR__ . '/../resources/geoip.mmdb', $database);
+        if (file_exists($databaseFilepath) === false) {
+            @mkdir(dirname($databaseFilepath), 0755, true);
+            copy(__DIR__ . '/../resources/geoip.mmdb', $databaseFilepath);
         }
     }
 }

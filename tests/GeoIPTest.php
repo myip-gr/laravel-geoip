@@ -10,17 +10,17 @@ namespace InteractionDesignFoundation\GeoIP\Tests;
 class GeoIPTest extends TestCase
 {
     /** @test */
-    public function should_get_usd_currency()
+    public function should_get_usd_currency(): void
     {
-        $geo_ip = $this->makeGeoIP();
+        $geoIp = $this->makeGeoIP();
 
-        $this->assertSame($geo_ip->getCurrency('US'), 'USD');
+        $this->assertSame($geoIp->getCurrency('US'), 'USD');
     }
 
     /** @test */
-    public function test_get_service()
+    public function get_service_returns_service_instance(): void
     {
-        $geo_ip = $this->makeGeoIP([
+        $geoIp = $this->makeGeoIP([
             'service' => 'maxmind_database',
         ]);
 
@@ -28,14 +28,14 @@ class GeoIPTest extends TestCase
         $config = $this->getConfig()['services']['maxmind_database'];
         unset($config['class']);
 
-        $this->assertInstanceOf(\InteractionDesignFoundation\GeoIP\Contracts\ServiceInterface::class, $geo_ip->getService());
+        $this->assertInstanceOf(\InteractionDesignFoundation\GeoIP\Contracts\ServiceInterface::class, $geoIp->getService());
     }
 
     /** @test */
-    public function test_get_cache()
+    public function get_cache_returns_cache_instance(): void
     {
-        $geo_ip = $this->makeGeoIP();
+        $geoIp = $this->makeGeoIP();
 
-        $this->assertInstanceOf(\InteractionDesignFoundation\GeoIP\Cache::class, $geo_ip->getCache());
+        $this->assertInstanceOf(\InteractionDesignFoundation\GeoIP\Cache::class, $geoIp->getCache());
     }
 }

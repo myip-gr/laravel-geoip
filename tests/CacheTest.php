@@ -13,7 +13,7 @@ use Mockery;
 class CacheTest extends TestCase
 {
     /** @test */
-    public function should_return_valid_location()
+    public function should_return_valid_location(): void
     {
         $data = [
             'ip' => '81.2.69.142',
@@ -39,7 +39,7 @@ class CacheTest extends TestCase
     }
 
     /** @test */
-    public function should_return_invalid_location()
+    public function should_return_invalid_location(): void
     {
         $cacheMock = Mockery::mock(CacheManager::class)
             ->shouldAllowMockingProtectedMethods();
@@ -55,7 +55,7 @@ class CacheTest extends TestCase
     }
 
     /** @test */
-    public function should_set_location()
+    public function should_set_location(): void
     {
         $location = new \InteractionDesignFoundation\GeoIP\Location([
             'ip' => '81.2.69.142',
@@ -82,16 +82,16 @@ class CacheTest extends TestCase
     }
 
     /** @test */
-    public function should_flush_locations()
+    public function should_flush_locations(): void
     {
         $cacheMock = Mockery::mock(CacheManager::class)
             ->shouldAllowMockingProtectedMethods();
+        $cacheMock->shouldReceive('supportsTags')->andReturn(false);
 
         $geo_ip = $this->makeGeoIP([], $cacheMock);
 
         $cacheMock->shouldReceive('flush')->andReturn(true);
 
-        $cacheMock->shouldReceive('tags')->with($geo_ip->config('cache_tags'))->andReturnSelf();
         $cacheMock->shouldReceive('tags')->with($geo_ip->config('cache_tags'))->andReturnSelf();
 
         $this->assertSame($geo_ip->getCache()->flush(), true);
