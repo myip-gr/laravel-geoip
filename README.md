@@ -17,6 +17,8 @@ This fork works with modern PHP versions only (8.0+), maintained and includes ad
  - Better types (native and PHPDoc)
  - Safer file and network functionality
  - Ability to prefix cache keys (`cache_prefix` config option)
+ - Updated currencies
+ - More predictable exceptions
 
 But don’t worry, we are following SemVer 2.0. The [package migration is straightforward](./docs/migration.md).
 
