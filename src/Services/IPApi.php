@@ -73,12 +73,12 @@ class IPApi extends AbstractService
         // Parse body content
         $json = json_decode($data[0]);
         if (! is_object($json) || ! property_exists($json, 'status')) {
-            throw new \RuntimeException("Unexpected ip-api.com response: $json->message");
+            throw new \RuntimeException("Unexpected ip-api.com response: {$json->message}");
         }
 
         // Verify response status
         if ($json->status !== 'success') {
-            throw new \RuntimeException("Failed ip-api.com response: $json->message");
+            throw new \RuntimeException("Failed ip-api.com response: {$json->message}");
         }
 
         return $this->hydrate([
