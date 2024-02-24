@@ -1,21 +1,24 @@
 <?php
 
+declare(strict_types=1);
+
 namespace InteractionDesignFoundation\GeoIP\Tests;
 
-use Mockery;
-
+/**
+ * @covers \InteractionDesignFoundation\GeoIP\GeoIP
+ */
 class GeoIPTest extends TestCase
 {
     /** @test */
-    public function shouldGetUSDCurrency()
+    public function should_get_usd_currency()
     {
         $geo_ip = $this->makeGeoIP();
 
-        $this->assertEquals($geo_ip->getCurrency('US'), 'USD');
+        $this->assertSame($geo_ip->getCurrency('US'), 'USD');
     }
 
     /** @test */
-    public function testGetService()
+    public function test_get_service()
     {
         $geo_ip = $this->makeGeoIP([
             'service' => 'maxmind_database',
@@ -29,7 +32,7 @@ class GeoIPTest extends TestCase
     }
 
     /** @test */
-    public function testGetCache()
+    public function test_get_cache()
     {
         $geo_ip = $this->makeGeoIP();
 

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace InteractionDesignFoundation\GeoIP\Console;
 
 use Illuminate\Console\Command;
@@ -53,7 +55,7 @@ class Clear extends Command
     protected function isSupported()
     {
         return empty(app('geoip')->config('cache_tags')) === false
-            && in_array(config('cache.default'), ['file', 'database']) === false;
+            && in_array(config('cache.default'), ['file', 'database'], true) === false;
     }
 
     /**

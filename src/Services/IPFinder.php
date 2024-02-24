@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace InteractionDesignFoundation\GeoIP\Services;
 
 use Exception;
@@ -26,14 +28,14 @@ class IPFinder extends AbstractService
             'headers' => [
                 'User-Agent' => 'Laravel-GeoIP-InteractionDesignFoundation',
             ],
-            'query'    => [
+            'query' => [
                 'token' => $this->config('key'),
             ],
         ]);
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      * @throws Exception
      */
     public function locate($ip)

@@ -1,8 +1,9 @@
 <?php
 
+declare(strict_types=1);
+
 namespace InteractionDesignFoundation\GeoIP;
 
-use Illuminate\Support\Str;
 use Illuminate\Support\ServiceProvider;
 
 class GeoIPServiceProvider extends ServiceProvider

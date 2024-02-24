@@ -60,7 +60,6 @@ return (new \PhpCsFixer\Config())
             ],
         ],
         'modernize_types_casting' => true,
-        'mb_str_functions' => true,
         'no_alias_functions' => true,
         'no_binary_string' => true,
         'no_empty_comment' => true,

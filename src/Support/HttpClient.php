@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace InteractionDesignFoundation\GeoIP\Support;
 
 use Illuminate\Support\Arr;
@@ -51,9 +53,9 @@ class HttpClient
     /**
      * Perform a get request.
      *
-     * @param  string $url
-     * @param  array  $query
-     * @param  array  $headers
+     * @param string $url
+     * @param array $query
+     * @param array $headers
      *
      * @return array
      */
@@ -65,10 +67,10 @@ class HttpClient
     /**
      * Execute the curl request
      *
-     * @param  string $method
-     * @param  string $url
-     * @param  array  $query
-     * @param  array  $headers
+     * @param string $method
+     * @param string $url
+     * @param array $query
+     * @param array $headers
      *
      * @return array
      */
@@ -182,8 +184,7 @@ class HttpClient
 
             if (count($header) == 2) {
                 $result[$header[0]] = trim($header[1]);
-            }
-            else {
+            } else {
                 $result[] = $header[0];
             }
         }
@@ -191,9 +192,7 @@ class HttpClient
         return $result;
     }
 
-    /**
-     * Get request URL.
-     */
+    /** Get request URL. */
     private function getUrl(string $url): string
     {
         // Check for URL scheme
@@ -207,8 +206,8 @@ class HttpClient
     /**
      * Build a GET request string.
      *
-     * @param  string $url
-     * @param  array  $query
+     * @param string $url
+     * @param array $query
      *
      * @return string
      */

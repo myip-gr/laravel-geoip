@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace InteractionDesignFoundation\GeoIP;
 
 use Illuminate\Cache\CacheManager;
@@ -27,8 +29,8 @@ class Cache
      * Create a new cache instance.
      *
      * @param CacheManager $cache
-     * @param array        $tags
-     * @param int          $expires
+     * @param array $tags
+     * @param int $expires
      */
     public function __construct(CacheManager $cache, $tags, $expires = 30)
     {
@@ -54,7 +56,7 @@ class Cache
      */
     public function get($name)
     {
-        $value = $this->cache->get($this->prefix.$name);
+        $value = $this->cache->get($this->prefix . $name);
 
         return is_array($value)
             ? new Location($value)
@@ -64,14 +66,14 @@ class Cache
     /**
      * Store an item in cache.
      *
-     * @param string   $name
+     * @param string $name
      * @param Location $location
      *
      * @return bool
      */
     public function set($name, Location $location)
     {
-        return $this->cache->put($this->prefix.$name, $location->toArray(), $this->expires);
+        return $this->cache->put($this->prefix . $name, $location->toArray(), $this->expires);
     }
 
     /**

@@ -1,21 +1,26 @@
 <?php
 
+declare(strict_types=1);
+
 namespace InteractionDesignFoundation\GeoIP\Tests;
 
 use Illuminate\Cache\CacheManager;
 use Mockery;
 use PHPUnit\Framework\TestCase as PHPUnitTestCase;
 
+/**
+ * @coversNothing
+ */
 class TestCase extends PHPUnitTestCase
 {
     public static $functions;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         self::$functions = Mockery::mock();
     }
 
-    public function tearDown(): void
+    protected function tearDown(): void
     {
         Mockery::close();
     }

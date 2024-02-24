@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 return [
 
     /*
@@ -82,14 +84,14 @@ return [
         ],
 
         'ipdata' => [
-            'class'  => \InteractionDesignFoundation\GeoIP\Services\IPData::class,
-            'key'    => env('IPDATA_API_KEY'),
+            'class' => \InteractionDesignFoundation\GeoIP\Services\IPData::class,
+            'key' => env('IPDATA_API_KEY'),
             'secure' => true,
         ],
 
         'ipfinder' => [
-            'class'  => \InteractionDesignFoundation\GeoIP\Services\IPFinder::class,
-            'key'    => env('IPFINDER_API_KEY'),
+            'class' => \InteractionDesignFoundation\GeoIP\Services\IPFinder::class,
+            'key' => env('IPFINDER_API_KEY'),
             'secure' => true,
             'locales' => ['en'],
         ],

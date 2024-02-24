@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace InteractionDesignFoundation\GeoIP\Services;
 
 use Exception;
@@ -54,9 +56,7 @@ class IPApi extends AbstractService
         }
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    /** {@inheritDoc} */
     public function locate($ip)
     {
         // Get data from client

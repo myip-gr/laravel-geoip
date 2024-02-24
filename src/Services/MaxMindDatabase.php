@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace InteractionDesignFoundation\GeoIP\Services;
 
 use PharData;
@@ -34,13 +36,12 @@ class MaxMindDatabase extends AbstractService
         }
 
         $this->reader = new Reader(
-            $path, $this->config('locales', ['en'])
+            $path,
+            $this->config('locales', ['en'])
         );
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    /** {@inheritDoc} */
     public function locate($ip)
     {
         $record = $this->reader->city($ip);

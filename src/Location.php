@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace InteractionDesignFoundation\GeoIP;
 
 use ArrayAccess;
@@ -46,7 +48,7 @@ class Location implements ArrayAccess
     /**
      * Determine if the location is for the same IP address.
      *
-     * @param  string $ip
+     * @param string $ip
      *
      * @return bool
      */
@@ -58,8 +60,8 @@ class Location implements ArrayAccess
     /**
      * Set a given attribute on the location.
      *
-     * @param  string $key
-     * @param  mixed  $value
+     * @param string $key
+     * @param mixed $value
      *
      * @return $this
      */
@@ -73,7 +75,7 @@ class Location implements ArrayAccess
     /**
      * Get an attribute from the $attributes array.
      *
-     * @param  string $key
+     * @param string $key
      *
      * @return mixed
      */
@@ -125,7 +127,7 @@ class Location implements ArrayAccess
     /**
      * Get the location's attribute
      *
-     * @param  string $key
+     * @param string $key
      *
      * @return mixed
      */
@@ -137,8 +139,8 @@ class Location implements ArrayAccess
     /**
      * Set the location's attribute
      *
-     * @param  string $key
-     * @param  mixed  $value
+     * @param string $key
+     * @param mixed $value
      */
     public function __set($key, $value)
     {
@@ -148,7 +150,7 @@ class Location implements ArrayAccess
     /**
      * Determine if the given attribute exists.
      *
-     * @param  mixed $offset
+     * @param mixed $offset
      *
      * @return bool
      */
@@ -160,7 +162,7 @@ class Location implements ArrayAccess
     /**
      * Get the value for a given offset.
      *
-     * @param  mixed $offset
+     * @param mixed $offset
      *
      * @return mixed
      */
@@ -172,8 +174,8 @@ class Location implements ArrayAccess
     /**
      * Set the value for a given offset.
      *
-     * @param  mixed $offset
-     * @param  mixed $value
+     * @param mixed $offset
+     * @param mixed $value
      *
      * @return void
      */
@@ -185,7 +187,7 @@ class Location implements ArrayAccess
     /**
      * Unset the value for a given offset.
      *
-     * @param  mixed $offset
+     * @param mixed $offset
      *
      * @return void
      */
@@ -209,7 +211,7 @@ class Location implements ArrayAccess
     /**
      * Unset an attribute on the location.
      *
-     * @param  string $key
+     * @param string $key
      *
      * @return void
      */

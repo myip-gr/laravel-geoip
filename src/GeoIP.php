@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace InteractionDesignFoundation\GeoIP;
 
 use Exception;
@@ -77,7 +79,7 @@ class GeoIP
     /**
      * Create a new GeoIP instance.
      *
-     * @param array        $config
+     * @param array $config
      * @param CacheManager $cache
      */
     public function __construct(array $config, CacheManager $cache)
@@ -275,7 +277,7 @@ class GeoIP
     /**
      * Determine if the location should be cached.
      *
-     * @param Location    $location
+     * @param Location $location
      * @param string|null $ip
      *
      * @return bool
@@ -299,7 +301,7 @@ class GeoIP
      * Get configuration value.
      *
      * @param string $key
-     * @param mixed  $default
+     * @param mixed $default
      *
      * @return mixed
      */
