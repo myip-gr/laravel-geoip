@@ -11,9 +11,12 @@ Determine the geographical location and currency of website visitors based on th
 
 ## About this fork
 
-We have forked [Torann/laravel-geoip](https://github.com/Torann/laravel-geoip) as it’s almost not actively maintained anymore.
-This fork works with modern PHP versions only (8.0+).
-Also, as for any InteractionDesignFoundation project, we are going to improving code quality by using types, static analysers, tests and linters.
+We have forked [`torann/geoip`](https://github.com/Torann/laravel-geoip) as it’s almost not actively maintained anymore.
+This fork works with modern PHP versions only (8.0+), maintained and includes additional features:
+ - Support modern Laravel and PHP versions
+ - Better types (native and PHPDoc)
+ - Safer file and network functionality
+ - Ability to prefix cache keys (`cache_prefix` config option)
 
 But don’t worry, we are following SemVer 2.0. The [package migration is straightforward](./docs/migration.md).
 
