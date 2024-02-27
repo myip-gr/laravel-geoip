@@ -74,7 +74,7 @@ class MaxMindDatabase extends AbstractService
             throw new \Exception('Database path not set in config file.');
         }
 
-        $this->withTemporaryDirectory(function ($directory) {
+        $this->withTemporaryDirectory(function ($directory): void {
             $tarFile = sprintf('%s/maxmind.tar.gz', $directory);
 
             file_put_contents($tarFile, fopen($this->config('update_url'), 'rb'));
@@ -97,7 +97,7 @@ class MaxMindDatabase extends AbstractService
      * Provide a temporary directory to perform operations in
      * and ensure it is removed afterward.
      *
-     * @param callable $callback
+     * @param callable(string):void $callback
      *
      * @return void
      */
@@ -125,17 +125,18 @@ class MaxMindDatabase extends AbstractService
      *
      * @param \PharData $archive
      *
-     * @return mixed
+     * @return \PharFileInfo
      * @throws \Exception
      */
-    protected function findDatabaseFile($archive)
+    protected function findDatabaseFile(\PharData $archive)
     {
+        /** @var \PharFileInfo $file */
         foreach ($archive as $file) {
             if ($file->isDir()) {
                 return $this->findDatabaseFile(new \PharData($file->getPathName()));
             }
 
-            if (pathinfo($file, \PATHINFO_EXTENSION) === 'mmdb') {
+            if (pathinfo($file->getPathName(), \PATHINFO_EXTENSION) === 'mmdb') {
                 return $file;
             }
         }
