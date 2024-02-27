@@ -313,29 +313,11 @@
     </RedundantConditionGivenDocblockType>
   </file>
   <file src="src/Services/MaxMindDatabase.php">
-    <MissingClosureParamType>
-      <code><![CDATA[$directory]]></code>
-    </MissingClosureParamType>
     <MixedArgument>
-      <code><![CDATA[$directory]]></code>
-      <code><![CDATA[$directory]]></code>
       <code><![CDATA[$this->config('database_path')]]></code>
       <code><![CDATA[$this->config('locales', ['en'])]]></code>
       <code><![CDATA[$this->config('update_url')]]></code>
     </MixedArgument>
-    <MixedAssignment>
-      <code><![CDATA[$file]]></code>
-    </MixedAssignment>
-    <MixedMethodCall>
-      <code><![CDATA[getFilename]]></code>
-    </MixedMethodCall>
-    <PossiblyInvalidArgument>
-      <code><![CDATA[$file]]></code>
-    </PossiblyInvalidArgument>
-    <PossiblyInvalidMethodCall>
-      <code><![CDATA[getPathName]]></code>
-      <code><![CDATA[isDir]]></code>
-    </PossiblyInvalidMethodCall>
   </file>
   <file src="src/Services/MaxMindWebService.php">
     <MixedArgument>
