@@ -66,6 +66,8 @@
     "phpcs": "vendor/bin/phpcs --standard=phpcs.xml src",
     "phpstan": "vendor/bin/phpstan --level=0 --no-progress analyse --configuration phpstan.neon --memory-limit 2G",
     "psalm": "vendor/bin/psalm",
+    "sa": "@psalm",
+    "sa:bl": "@psalm --set-baseline=psalm-baseline.xml",
     "test": "vendor/bin/phpunit"
   }
 }
