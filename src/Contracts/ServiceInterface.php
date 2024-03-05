@@ -23,6 +23,8 @@ interface ServiceInterface
      * @param string $ip
      *
      * @return \InteractionDesignFoundation\GeoIP\Location
+     *
+     * @throws \InvalidArgumentException if an invalid IP address is passed
      */
     public function locate($ip);
 

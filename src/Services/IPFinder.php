@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace InteractionDesignFoundation\GeoIP\Services;
 
-use Exception;
 use InteractionDesignFoundation\GeoIP\Support\HttpClient;
 
 class IPFinder extends AbstractService
@@ -36,7 +35,7 @@ class IPFinder extends AbstractService
 
     /**
      * {@inheritDoc}
-     * @throws Exception
+     * @throws \Exception
      */
     public function locate($ip)
     {
@@ -45,7 +44,7 @@ class IPFinder extends AbstractService
 
         // Verify server response
         if ($this->client->getErrors() !== null || empty($data[0])) {
-            throw new Exception('Request failed (' . $this->client->getErrors() . ')');
+            throw new \Exception('Request failed (' . $this->client->getErrors() . ')');
         }
 
         $json = json_decode($data[0], true);
