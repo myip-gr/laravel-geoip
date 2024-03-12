@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace InteractionDesignFoundation\GeoIP;
 
-use Exception;
 use Monolog\Logger;
 use Illuminate\Support\Arr;
 use Illuminate\Cache\CacheManager;
@@ -195,7 +194,7 @@ class GeoIP
      * Get service instance.
      *
      * @return \InteractionDesignFoundation\GeoIP\Contracts\ServiceInterface
-     * @throws Exception
+     * @throws \Exception
      */
     public function getService()
     {
@@ -208,7 +207,7 @@ class GeoIP
 
             // Sanity check
             if ($class === null) {
-                throw new Exception('The GeoIP service is not valid.');
+                throw new \Exception('The GeoIP service is not valid.');
             }
 
             // Create service instance
