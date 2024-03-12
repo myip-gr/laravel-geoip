@@ -23,6 +23,7 @@ class GeoIP
 
     /**
      * Remote Machine IP address.
+     * @deprecated Use {@see self::getClientIP()} instead.
      *
      * @var string
      */

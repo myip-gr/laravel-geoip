@@ -88,7 +88,6 @@
       <code><![CDATA[$this->service === null]]></code>
     </DocblockTypeContradiction>
     <InvalidPropertyAssignmentValue>
-      <code><![CDATA[$this->default_location]]></code>
       <code><![CDATA[new Cache(
             $cache,
             $this->config('cache_tags'),
@@ -110,6 +109,9 @@
       <code><![CDATA[$this->config('cache_tags')]]></code>
       <code><![CDATA[$this->config('default_location', [])]]></code>
     </MixedArgument>
+    <MixedArgumentTypeCoercion>
+      <code><![CDATA[$this->default_location]]></code>
+    </MixedArgumentTypeCoercion>
     <MixedAssignment>
       <code><![CDATA[$class]]></code>
       <code><![CDATA[$config]]></code>
