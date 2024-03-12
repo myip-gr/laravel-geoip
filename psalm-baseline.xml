@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<files psalm-version="5.22.2@d768d914152dbbf3486c36398802f74e80cfde48">
+<files psalm-version="5.23.1@8471a896ccea3526b26d082f4461eeea467f10a4">
   <file src="src/Cache.php">
     <MixedInferredReturnType>
       <code><![CDATA[bool]]></code>
@@ -26,15 +26,16 @@
     <NonInvariantDocblockPropertyType>
       <code><![CDATA[$description]]></code>
     </NonInvariantDocblockPropertyType>
+    <PossiblyUndefinedMethod>
+      <code><![CDATA[config]]></code>
+      <code><![CDATA[getCache]]></code>
+    </PossiblyUndefinedMethod>
     <PropertyNotSetInConstructor>
       <code><![CDATA[Clear]]></code>
       <code><![CDATA[Clear]]></code>
       <code><![CDATA[Clear]]></code>
       <code><![CDATA[Clear]]></code>
     </PropertyNotSetInConstructor>
-    <UndefinedFunction>
-      <code><![CDATA[config('cache.default')]]></code>
-    </UndefinedFunction>
   </file>
   <file src="src/Console/Update.php">
     <DeprecatedMethod>
@@ -54,6 +55,9 @@
     <NonInvariantDocblockPropertyType>
       <code><![CDATA[$description]]></code>
     </NonInvariantDocblockPropertyType>
+    <PossiblyUndefinedMethod>
+      <code><![CDATA[getService]]></code>
+    </PossiblyUndefinedMethod>
     <PropertyNotSetInConstructor>
       <code><![CDATA[Update]]></code>
       <code><![CDATA[Update]]></code>
@@ -68,9 +72,16 @@
     </InvalidParamDefault>
   </file>
   <file src="src/GeoIP.php">
+    <DeprecatedConstant>
+      <code><![CDATA[Logger::ERROR]]></code>
+    </DeprecatedConstant>
     <DeprecatedMethod>
       <code><![CDATA[setPrefix]]></code>
     </DeprecatedMethod>
+    <DeprecatedProperty>
+      <code><![CDATA[$this->remote_ip]]></code>
+      <code><![CDATA[$this->remote_ip]]></code>
+    </DeprecatedProperty>
     <DocblockTypeContradiction>
       <code><![CDATA[$this->currencies === null]]></code>
       <code><![CDATA[$this->service === null]]></code>
@@ -103,15 +114,12 @@
     <MixedAssignment>
       <code><![CDATA[$class]]></code>
       <code><![CDATA[$config]]></code>
-      <code><![CDATA[$log]]></code>
     </MixedAssignment>
     <MixedInferredReturnType>
       <code><![CDATA[string]]></code>
     </MixedInferredReturnType>
     <MixedMethodCall>
-      <code><![CDATA[error]]></code>
       <code><![CDATA[new $class($config)]]></code>
-      <code><![CDATA[pushHandler]]></code>
     </MixedMethodCall>
     <MixedOperand>
       <code><![CDATA[$this->config('service')]]></code>
@@ -136,19 +144,11 @@
     <PropertyTypeCoercion>
       <code><![CDATA[new $class($config)]]></code>
     </PropertyTypeCoercion>
-    <RedundantCondition>
-      <code><![CDATA['some']]></code>
-    </RedundantCondition>
     <RiskyTruthyFalsyComparison>
       <code><![CDATA[! $location->currency]]></code>
       <code><![CDATA[$address = getenv($key)]]></code>
       <code><![CDATA[$ip]]></code>
     </RiskyTruthyFalsyComparison>
-    <UndefinedClass>
-      <code><![CDATA[Logger]]></code>
-      <code><![CDATA[Logger]]></code>
-      <code><![CDATA[StreamHandler]]></code>
-    </UndefinedClass>
   </file>
   <file src="src/GeoIPServiceProvider.php">
     <MissingClosureParamType>
@@ -167,9 +167,6 @@
     <MixedPropertyFetch>
       <code><![CDATA[$app->config]]></code>
     </MixedPropertyFetch>
-    <UndefinedFunction>
-      <code><![CDATA[config_path('geoip.php')]]></code>
-    </UndefinedFunction>
   </file>
   <file src="src/Location.php">
     <InvalidParamDefault>
@@ -360,7 +357,11 @@
     </MixedMethodCall>
     <MixedReturnStatement>
       <code><![CDATA[app('geoip')]]></code>
+      <code><![CDATA[app('geoip')]]></code>
       <code><![CDATA[app('geoip')->getLocation($ip)]]></code>
     </MixedReturnStatement>
+    <PossiblyUndefinedMethod>
+      <code><![CDATA[getLocation]]></code>
+    </PossiblyUndefinedMethod>
   </file>
 </files>

@@ -23,6 +23,7 @@ class GeoIP
 
     /**
      * Remote Machine IP address.
+     * @deprecated Use {@see self::getClientIP()} instead.
      *
      * @var string
      */
@@ -291,13 +292,10 @@ class GeoIP
             return false;
         }
 
-        switch ($this->config('cache', 'none')) {
-            case 'all':
-            case 'some' && $ip === null:
-                return true;
-        }
-
-        return false;
+        return match ($this->config('cache', 'none')) {
+            'all', 'some' && $ip === null => true,
+            default => false,
+        };
     }
 
     /**

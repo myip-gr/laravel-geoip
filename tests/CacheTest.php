@@ -5,95 +5,54 @@ declare(strict_types=1);
 namespace InteractionDesignFoundation\GeoIP\Tests;
 
 use Illuminate\Cache\CacheManager;
-use Mockery;
+use InteractionDesignFoundation\GeoIP\Cache;
+use InteractionDesignFoundation\GeoIP\Location;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\Test;
 
 /**
- * @covers \InteractionDesignFoundation\GeoIP\Cache
+ * @coversNothing
  */
+#[CoversClass(Cache::class)]
 class CacheTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function should_return_valid_location(): void
     {
-        $data = [
-            'ip' => '81.2.69.142',
-            'iso_code' => 'US',
-            'lat' => 41.31,
-            'lon' => -72.92,
-        ];
-
-        $cacheMock = Mockery::mock(CacheManager::class)
-            ->shouldAllowMockingProtectedMethods();
-
-        $cacheMock->shouldReceive('supportsTags')->andReturn(false);
-        $cacheMock->shouldReceive('get')->with($data['ip'])->andReturn($data);
-
-        $geo_ip = $this->makeGeoIP([], $cacheMock);
-        $geo_ip->getCache()->setPrefix('');
-
-        $location = $geo_ip->getCache()->get($data['ip']);
-
-        $this->assertInstanceOf(\InteractionDesignFoundation\GeoIP\Location::class, $location);
-        $this->assertSame($location->ip, $data['ip']);
-        $this->assertSame($location->default, false);
-    }
-
-    /** @test */
-    public function should_return_invalid_location(): void
-    {
-        $cacheMock = Mockery::mock(CacheManager::class)
-            ->shouldAllowMockingProtectedMethods();
-
-        $cacheMock->shouldReceive('supportsTags')->andReturn(false);
-
-        $geo_ip = $this->makeGeoIP([], $cacheMock);
-        $geo_ip->getCache()->setPrefix('');
-
-        $cacheMock->shouldReceive('get')->with('81.2.69.142')->andReturn(null);
-
-        $this->assertSame($geo_ip->getCache()->get('81.2.69.142'), null);
-    }
-
-    /** @test */
-    public function should_set_location(): void
-    {
-        $location = new \InteractionDesignFoundation\GeoIP\Location([
+        $cache = new Cache(app(CacheManager::class), [], 30);
+        $originalLocation = new Location([
             'ip' => '81.2.69.142',
             'iso_code' => 'US',
             'lat' => 41.31,
             'lon' => -72.92,
         ]);
 
-        $cacheMock = Mockery::mock(CacheManager::class)
-            ->shouldAllowMockingProtectedMethods();
+        $cache->set($originalLocation['ip'], $originalLocation);
+        $uncachedLocation = $cache->get($originalLocation['ip']);
 
-        $cacheMock->shouldReceive('supportsTags')->andReturn(false);
-
-        $geo_ip = $this->makeGeoIP([], $cacheMock);
-        $geo_ip->getCache()->setPrefix('');
-
-        $cacheMock->shouldReceive('put')->withArgs(['81.2.69.142', $location->toArray(), $geo_ip->config('cache_expires')])->andReturn(null);
-
-        $cacheMock->shouldReceive('tags')
-            ->with($geo_ip->config('cache_tags'))
-            ->andReturnSelf();
-
-        $this->assertSame($geo_ip->getCache()->set('81.2.69.142', $location), null);
+        $this->assertInstanceOf(Location::class, $uncachedLocation);
+        $this->assertSame($uncachedLocation->ip, $originalLocation->ip);
+        $this->assertSame($uncachedLocation->default, false);
     }
 
-    /** @test */
-    public function should_flush_locations(): void
+    #[Test]
+    public function it_flushes_empty_cache(): void
     {
-        $cacheMock = Mockery::mock(CacheManager::class)
-            ->shouldAllowMockingProtectedMethods();
-        $cacheMock->shouldReceive('supportsTags')->andReturn(false);
+        $cache = new Cache(app(CacheManager::class), [], 30);
 
-        $geo_ip = $this->makeGeoIP([], $cacheMock);
+        $flushResult = $cache->flush();
 
-        $cacheMock->shouldReceive('flush')->andReturn(true);
+        $this->assertTrue($flushResult);
+    }
 
-        $cacheMock->shouldReceive('tags')->with($geo_ip->config('cache_tags'))->andReturnSelf();
+    #[Test]
+    public function it_flushes_non_empty_cache(): void
+    {
+        $cache = new Cache(app(CacheManager::class), [], 30);
+        $cache->set('42', new Location());
 
-        $this->assertSame($geo_ip->getCache()->flush(), true);
+        $flushResult = $cache->flush();
+
+        $this->assertTrue($flushResult);
     }
 }

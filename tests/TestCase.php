@@ -4,38 +4,26 @@ declare(strict_types=1);
 
 namespace InteractionDesignFoundation\GeoIP\Tests;
 
-use Illuminate\Cache\CacheManager;
 use InteractionDesignFoundation\GeoIP\GeoIP;
-use Mockery;
-use PHPUnit\Framework\TestCase as PHPUnitTestCase;
+use PHPUnit\Framework\Attributes\CoversNothing;
 
 /**
  * @coversNothing
  */
-class TestCase extends PHPUnitTestCase
+#[CoversNothing]
+class TestCase extends \Orchestra\Testbench\TestCase
 {
-    public static $functions;
-
+    /** @inheritDoc */
     protected function setUp(): void
     {
-        self::$functions = Mockery::mock();
+        parent::setUp();
     }
 
-    protected function tearDown(): void
+    protected function makeGeoIP(array $config = []): GeoIP
     {
-        Mockery::close();
-    }
-
-    protected function makeGeoIP(array $config = [], $cacheMock = null): GeoIP
-    {
-        $cacheMock = $cacheMock ?: Mockery::mock(CacheManager::class);
-        $cacheMock->shouldReceive('supportsTags')->andReturn(false);
-
         $config = array_merge($this->getConfig(), $config);
 
-        $cacheMock->shouldReceive('tags')->with(['laravel-geoip-location'])->andReturnSelf();
-
-        return new GeoIP($config, $cacheMock);
+        return new GeoIP($config, $this->app['cache']);
     }
 
     protected function getConfig(): array
