@@ -81,7 +81,6 @@
     <DeprecatedProperty>
       <code><![CDATA[$this->remote_ip]]></code>
       <code><![CDATA[$this->remote_ip]]></code>
-      <code><![CDATA[$this->remote_ip]]></code>
     </DeprecatedProperty>
     <DocblockTypeContradiction>
       <code><![CDATA[$this->currencies === null]]></code>
