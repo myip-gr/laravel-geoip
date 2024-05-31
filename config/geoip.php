@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 return [
 
     /*
@@ -82,14 +84,14 @@ return [
         ],
 
         'ipdata' => [
-            'class'  => \InteractionDesignFoundation\GeoIP\Services\IPData::class,
-            'key'    => env('IPDATA_API_KEY'),
+            'class' => \InteractionDesignFoundation\GeoIP\Services\IPData::class,
+            'key' => env('IPDATA_API_KEY'),
             'secure' => true,
         ],
 
         'ipfinder' => [
-            'class'  => \InteractionDesignFoundation\GeoIP\Services\IPFinder::class,
-            'key'    => env('IPFINDER_API_KEY'),
+            'class' => \InteractionDesignFoundation\GeoIP\Services\IPFinder::class,
+            'key' => env('IPFINDER_API_KEY'),
             'secure' => true,
             'locales' => ['en'],
         ],
@@ -131,11 +133,22 @@ return [
     | Cache Expiration
     |--------------------------------------------------------------------------
     |
-    | Define how long cached location are valid.
+    | Cache's time to live in seconds.
     |
     */
 
     'cache_expires' => 30,
+
+    /*
+    |--------------------------------------------------------------------------
+    | Cache Prefix
+    |--------------------------------------------------------------------------
+    |
+    | Prefix used for cache keys (in addition to globally configured prefix).
+    |
+    */
+
+    'cache_prefix' => 'geoip:',
 
     /*
     |--------------------------------------------------------------------------

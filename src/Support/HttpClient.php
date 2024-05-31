@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace InteractionDesignFoundation\GeoIP\Support;
 
 use Illuminate\Support\Arr;
@@ -51,9 +53,9 @@ class HttpClient
     /**
      * Perform a get request.
      *
-     * @param  string $url
-     * @param  array  $query
-     * @param  array  $headers
+     * @param string $url
+     * @param array $query
+     * @param array $headers
      *
      * @return array
      */
@@ -65,12 +67,14 @@ class HttpClient
     /**
      * Execute the curl request
      *
-     * @param  string $method
-     * @param  string $url
-     * @param  array  $query
-     * @param  array  $headers
+     * @param string $method
+     * @param string $url
+     * @param array $query
+     * @param array $headers
      *
-     * @return array
+     * @return array{string, array}
+     *
+     * @throws \RuntimeException
      */
     public function execute($method, $url, array $query = [], array $headers = [])
     {
@@ -104,30 +108,23 @@ class HttpClient
             CURLOPT_VERBOSE => 1,
         ]);
 
-        // Setup method specific options
-        switch ($method) {
-            case 'PUT':
-            case 'PATCH':
-            case 'POST':
-                curl_setopt_array($curl, [
-                    CURLOPT_CUSTOMREQUEST => $method,
-                    CURLOPT_POST => true,
-                    CURLOPT_POSTFIELDS => $query,
-                ]);
-                break;
-
-            case 'DELETE':
-                curl_setopt($curl, CURLOPT_CUSTOMREQUEST, 'DELETE');
-                break;
-
-            default:
-                curl_setopt($curl, CURLOPT_CUSTOMREQUEST, 'GET');
-                break;
-        }
+        match ($method) {
+            'PUT', 'PATCH', 'POST' => curl_setopt_array($curl, [
+                \CURLOPT_CUSTOMREQUEST => $method,
+                \CURLOPT_POST => true,
+                \CURLOPT_POSTFIELDS => $query,
+            ]),
+            'DELETE' => curl_setopt($curl, CURLOPT_CUSTOMREQUEST, 'DELETE'),
+            default => curl_setopt($curl, CURLOPT_CUSTOMREQUEST, 'GET'),
+        };
 
         // Make request
         curl_setopt($curl, CURLOPT_HEADER, true);
         $response = curl_exec($curl);
+        if (! is_string($response)) {
+            $curlError = curl_error($curl);
+            throw new \RuntimeException("Failed to make {$method} HTTP request: {$curlError}");
+        }
 
         // Set HTTP response code
         $this->http_code = curl_getinfo($curl, CURLINFO_HTTP_CODE);
@@ -184,7 +181,7 @@ class HttpClient
      *
      * @return array
      */
-    private function parseHeaders($headers)
+    private function parseHeaders(string $headers): array
     {
         $result = [];
 
@@ -193,8 +190,7 @@ class HttpClient
 
             if (count($header) == 2) {
                 $result[$header[0]] = trim($header[1]);
-            }
-            else {
+            } else {
                 $result[] = $header[0];
             }
         }
@@ -202,14 +198,8 @@ class HttpClient
         return $result;
     }
 
-    /**
-     * Get request URL.
-     *
-     * @param  string $url
-     *
-     * @return string
-     */
-    private function getUrl($url)
+    /** Get request URL. */
+    private function getUrl(string $url): string
     {
         // Check for URL scheme
         if (parse_url($url, PHP_URL_SCHEME) === null) {
@@ -222,12 +212,12 @@ class HttpClient
     /**
      * Build a GET request string.
      *
-     * @param  string $url
-     * @param  array  $query
+     * @param string $url
+     * @param array $query
      *
      * @return string
      */
-    private function buildGetUrl($url, array $query = [])
+    private function buildGetUrl(string $url, array $query = []): string
     {
         // Merge global and request queries
         $query = array_merge(

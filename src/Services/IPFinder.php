@@ -1,15 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace InteractionDesignFoundation\GeoIP\Services;
 
-use Exception;
-use Illuminate\Support\Arr;
 use InteractionDesignFoundation\GeoIP\Support\HttpClient;
 
-/**
- * Class GeoIP
- * @package InteractionDesignFoundation\GeoIP\Services
- */
 class IPFinder extends AbstractService
 {
     /**
@@ -31,15 +27,15 @@ class IPFinder extends AbstractService
             'headers' => [
                 'User-Agent' => 'Laravel-GeoIP-InteractionDesignFoundation',
             ],
-            'query'    => [
+            'query' => [
                 'token' => $this->config('key'),
             ],
         ]);
     }
 
     /**
-     * {@inheritdoc}
-     * @throws Exception
+     * {@inheritDoc}
+     * @throws \Exception
      */
     public function locate($ip)
     {
@@ -48,7 +44,7 @@ class IPFinder extends AbstractService
 
         // Verify server response
         if ($this->client->getErrors() !== null || empty($data[0])) {
-            throw new Exception('Request failed (' . $this->client->getErrors() . ')');
+            throw new \Exception('Request failed (' . $this->client->getErrors() . ')');
         }
 
         $json = json_decode($data[0], true);

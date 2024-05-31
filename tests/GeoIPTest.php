@@ -1,27 +1,26 @@
 <?php
 
+declare(strict_types=1);
+
 namespace InteractionDesignFoundation\GeoIP\Tests;
 
-use Mockery;
-
+/**
+ * @covers \InteractionDesignFoundation\GeoIP\GeoIP
+ */
 class GeoIPTest extends TestCase
 {
-    /**
-     * @test
-     */
-    public function shouldGetUSDCurrency()
+    /** @test */
+    public function should_get_usd_currency(): void
     {
-        $geo_ip = $this->makeGeoIP();
+        $geoIp = $this->makeGeoIP();
 
-        $this->assertEquals($geo_ip->getCurrency('US'), 'USD');
+        $this->assertSame($geoIp->getCurrency('US'), 'USD');
     }
 
-    /**
-     * @test
-     */
-    public function testGetService()
+    /** @test */
+    public function get_service_returns_service_instance(): void
     {
-        $geo_ip = $this->makeGeoIP([
+        $geoIp = $this->makeGeoIP([
             'service' => 'maxmind_database',
         ]);
 
@@ -29,16 +28,14 @@ class GeoIPTest extends TestCase
         $config = $this->getConfig()['services']['maxmind_database'];
         unset($config['class']);
 
-        $this->assertInstanceOf(\InteractionDesignFoundation\GeoIP\Contracts\ServiceInterface::class, $geo_ip->getService());
+        $this->assertInstanceOf(\InteractionDesignFoundation\GeoIP\Contracts\ServiceInterface::class, $geoIp->getService());
     }
 
-    /**
-     * @test
-     */
-    public function testGetCache()
+    /** @test */
+    public function get_cache_returns_cache_instance(): void
     {
-        $geo_ip = $this->makeGeoIP();
+        $geoIp = $this->makeGeoIP();
 
-        $this->assertInstanceOf(\InteractionDesignFoundation\GeoIP\Cache::class, $geo_ip->getCache());
+        $this->assertInstanceOf(\InteractionDesignFoundation\GeoIP\Cache::class, $geoIp->getCache());
     }
 }

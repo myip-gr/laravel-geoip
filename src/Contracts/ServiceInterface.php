@@ -1,7 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace InteractionDesignFoundation\GeoIP\Contracts;
 
+/**
+ * @psalm-import-type LocationArray from \InteractionDesignFoundation\GeoIP\Location
+ */
 interface ServiceInterface
 {
     /**
@@ -18,6 +23,8 @@ interface ServiceInterface
      * @param string $ip
      *
      * @return \InteractionDesignFoundation\GeoIP\Location
+     *
+     * @throws \InvalidArgumentException if an invalid IP address is passed
      */
     public function locate($ip);
 
@@ -25,6 +32,7 @@ interface ServiceInterface
      * Create a location instance from the provided attributes.
      *
      * @param array $attributes
+     * @psalm-param LocationArray $attributes
      *
      * @return \InteractionDesignFoundation\GeoIP\Location
      */
@@ -34,7 +42,7 @@ interface ServiceInterface
      * Get configuration value.
      *
      * @param string $key
-     * @param mixed  $default
+     * @param mixed $default
      *
      * @return mixed
      */

@@ -1,9 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace InteractionDesignFoundation\GeoIP\Services;
 
 use Exception;
-use Illuminate\Support\Arr;
 use InteractionDesignFoundation\GeoIP\Support\HttpClient;
 
 class IPGeoLocation extends AbstractService
@@ -33,10 +34,7 @@ class IPGeoLocation extends AbstractService
         $this->client = new HttpClient($base);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-
+    /** {@inheritDoc} */
     public function locate($ip)
     {
         // Get data from client

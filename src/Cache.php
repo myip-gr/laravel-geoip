@@ -1,9 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace InteractionDesignFoundation\GeoIP;
 
 use Illuminate\Cache\CacheManager;
 
+/**
+ * @psalm-import-type LocationArray from \InteractionDesignFoundation\GeoIP\Location
+ */
 class Cache
 {
     /**
@@ -20,17 +25,29 @@ class Cache
      */
     protected $expires;
 
+    /** Cache prefix */
+    protected string $prefix = '';
+
     /**
      * Create a new cache instance.
      *
      * @param CacheManager $cache
-     * @param array        $tags
-     * @param int          $expires
+     * @param array $tags
+     * @param int $expires
      */
     public function __construct(CacheManager $cache, $tags, $expires = 30)
     {
-        $this->cache = $tags ? $cache->tags($tags) : $cache;
+        $this->cache = ($tags === [] || !$cache->supportsTags()) ? $cache : $cache->tags($tags);
         $this->expires = $expires;
+    }
+
+    /**
+     * @internal A hack to support prefixes. Added as a setter to avoid BC breaks.
+     * @deprecated Will be removed in v2.0
+     */
+    public function setPrefix(?string $prefix = null): void
+    {
+        $this->prefix = (string) $prefix;
     }
 
     /**
@@ -42,7 +59,8 @@ class Cache
      */
     public function get($name)
     {
-        $value = $this->cache->get($name);
+        /** @psalm-var LocationArray|null $value */
+        $value = $this->cache->get($this->prefix . $name);
 
         return is_array($value)
             ? new Location($value)
@@ -52,14 +70,14 @@ class Cache
     /**
      * Store an item in cache.
      *
-     * @param string   $name
+     * @param string $name
      * @param Location $location
      *
      * @return bool
      */
     public function set($name, Location $location)
     {
-        return $this->cache->put($name, $location->toArray(), $this->expires);
+        return $this->cache->put($this->prefix . $name, $location->toArray(), $this->expires);
     }
 
     /**

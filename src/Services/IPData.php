@@ -1,15 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace InteractionDesignFoundation\GeoIP\Services;
 
 use Exception;
 use Illuminate\Support\Arr;
 use InteractionDesignFoundation\GeoIP\Support\HttpClient;
 
-/**
- * Class GeoIP
- * @package InteractionDesignFoundation\GeoIP\Services
- */
 class IPData extends AbstractService
 {
     /**
@@ -28,14 +26,14 @@ class IPData extends AbstractService
     {
         $this->client = new HttpClient([
             'base_uri' => 'https://api.ipdata.co/',
-            'query'    => [
+            'query' => [
                 'api-key' => $this->config('key'),
             ],
         ]);
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      * @throws Exception
      */
     public function locate($ip)

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace InteractionDesignFoundation\GeoIP\Console;
 
 use Illuminate\Console\Command;
@@ -32,6 +34,7 @@ class Update extends Command
 
     /**
      * Execute the console command.
+     * @deprecated Use {@see self::handle()} instead.
      *
      * @return void
      */
@@ -52,8 +55,7 @@ class Update extends Command
         // Perform update
         if ($result = $service->update()) {
             $this->info($result);
-        }
-        else {
+        } else {
             $this->error('Update failed!');
         }
     }

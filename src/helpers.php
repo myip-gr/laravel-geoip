@@ -1,16 +1,19 @@
 <?php
 
+declare(strict_types=1);
+
 if (!function_exists('geoip')) {
     /**
      * Get the location of the provided IP.
      *
-     * @param string $ip
-     *
+     * @param string|null $ip
      * @return \InteractionDesignFoundation\GeoIP\GeoIP|\InteractionDesignFoundation\GeoIP\Location
+     * @psalm-return ($ip is null ? \InteractionDesignFoundation\GeoIP\GeoIP : \InteractionDesignFoundation\GeoIP\Location)
+     * @throws \Exception
      */
     function geoip($ip = null)
     {
-        if (is_null($ip)) {
+        if ($ip === null) {
             return app('geoip');
         }
 

@@ -1,36 +1,32 @@
 <?php
 
+declare(strict_types=1);
+
 namespace InteractionDesignFoundation\GeoIP\Tests;
 
-use Mockery;
-use PHPUnit\Framework\TestCase as PHPUnitTestCase;
+use InteractionDesignFoundation\GeoIP\GeoIP;
+use PHPUnit\Framework\Attributes\CoversNothing;
 
-class TestCase extends PHPUnitTestCase
+/**
+ * @coversNothing
+ */
+#[CoversNothing]
+class TestCase extends \Orchestra\Testbench\TestCase
 {
-    public static $functions;
-
-    public function setUp(): void
+    /** @inheritDoc */
+    protected function setUp(): void
     {
-        self::$functions = Mockery::mock();
+        parent::setUp();
     }
 
-    public function tearDown(): void
+    protected function makeGeoIP(array $config = []): GeoIP
     {
-        Mockery::close();
-    }
-
-    protected function makeGeoIP(array $config = [], $cacheMock = null)
-    {
-        $cacheMock = $cacheMock ?: Mockery::mock('Illuminate\Cache\CacheManager');
-
         $config = array_merge($this->getConfig(), $config);
 
-        $cacheMock->shouldReceive('tags')->with(['laravel-geoip-location'])->andReturnSelf();
-
-        return new \InteractionDesignFoundation\GeoIP\GeoIP($config, $cacheMock);
+        return new GeoIP($config, $this->app['cache']);
     }
 
-    protected function getConfig()
+    protected function getConfig(): array
     {
         $config = include(__DIR__ . '/../config/geoip.php');
 
@@ -39,17 +35,12 @@ class TestCase extends PHPUnitTestCase
         return $config;
     }
 
-    /**
-     * Check for test database and make a copy of it
-     * if it does not exist.
-     *
-     * @param string $database
-     */
-    protected function databaseCheck($database)
+    /** Check for a test database and make a copy of it if it does not exist.*/
+    protected function databaseCheck(string $databaseFilepath): void
     {
-        if (file_exists($database) === false) {
-            @mkdir(dirname($database), 0755, true);
-            copy(__DIR__ . '/../resources/geoip.mmdb', $database);
+        if (file_exists($databaseFilepath) === false) {
+            @mkdir(dirname($databaseFilepath), 0755, true);
+            copy(__DIR__ . '/../resources/geoip.mmdb', $databaseFilepath);
         }
     }
 }

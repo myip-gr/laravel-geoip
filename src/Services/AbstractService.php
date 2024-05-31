@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace InteractionDesignFoundation\GeoIP\Services;
 
 use InteractionDesignFoundation\GeoIP\Location;
@@ -34,12 +36,9 @@ abstract class AbstractService implements ServiceInterface
      */
     public function boot()
     {
-        //
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    /** {@inheritDoc} */
     public function hydrate(array $attributes = [])
     {
         return new Location($attributes);
@@ -49,7 +48,7 @@ abstract class AbstractService implements ServiceInterface
      * Get configuration value.
      *
      * @param string $key
-     * @param mixed  $default
+     * @param mixed $default
      *
      * @return mixed
      */

@@ -1,9 +1,18 @@
 <?php
 
+declare(strict_types=1);
+
 namespace InteractionDesignFoundation\GeoIP\Facades;
 
 use Illuminate\Support\Facades\Facade;
 
+/**
+ * @method static \InteractionDesignFoundation\GeoIP\Location getLocation(string|null $ip)
+ * @method static string getClientIP()
+ * @method static string getCurrency(string $iso)
+ * @method static \InteractionDesignFoundation\GeoIP\Contracts\ServiceInterface getService()
+ * @mixin \InteractionDesignFoundation\GeoIP\GeoIP
+ */
 class GeoIP extends Facade
 {
     /**

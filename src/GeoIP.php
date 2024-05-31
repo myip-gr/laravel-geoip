@@ -1,13 +1,17 @@
 <?php
 
+declare(strict_types=1);
+
 namespace InteractionDesignFoundation\GeoIP;
 
-use Exception;
 use Monolog\Logger;
 use Illuminate\Support\Arr;
 use Illuminate\Cache\CacheManager;
 use Monolog\Handler\StreamHandler;
 
+/**
+ * @psalm-import-type LocationArray from \InteractionDesignFoundation\GeoIP\Location
+ */
 class GeoIP
 {
     /**
@@ -19,15 +23,16 @@ class GeoIP
 
     /**
      * Remote Machine IP address.
+     * @deprecated Use {@see self::getClientIP()} instead.
      *
-     * @var float
+     * @var string
      */
     protected $remote_ip = null;
 
     /**
      * Current location instance.
      *
-     * @var Location
+     * @var Location|null
      */
     protected $location = null;
 
@@ -77,7 +82,7 @@ class GeoIP
     /**
      * Create a new GeoIP instance.
      *
-     * @param array        $config
+     * @param array $config
      * @param CacheManager $cache
      */
     public function __construct(array $config, CacheManager $cache)
@@ -90,6 +95,7 @@ class GeoIP
             $this->config('cache_tags'),
             $this->config('cache_expires', 30)
         );
+        $this->cache->setPrefix((string) $this->config('cache_prefix'));
 
         // Set custom default location
         $this->default_location = array_merge(
@@ -130,7 +136,7 @@ class GeoIP
      * @return \InteractionDesignFoundation\GeoIP\Location
      * @throws \Exception
      */
-    private function find($ip = null)
+    private function find($ip = null): Location
     {
         // If IP not set, user remote IP
         $ip = $ip ?: $this->remote_ip;
@@ -189,7 +195,7 @@ class GeoIP
      * Get service instance.
      *
      * @return \InteractionDesignFoundation\GeoIP\Contracts\ServiceInterface
-     * @throws Exception
+     * @throws \Exception
      */
     public function getService()
     {
@@ -202,7 +208,7 @@ class GeoIP
 
             // Sanity check
             if ($class === null) {
-                throw new Exception('The GeoIP service is not valid.');
+                throw new \Exception('The GeoIP service is not valid.');
             }
 
             // Create service instance
@@ -230,6 +236,7 @@ class GeoIP
     public function getClientIP()
     {
         $remotes_keys = [
+            'HTTP_X_FORWARDED_IP',
             'HTTP_X_FORWARDED_FOR',
             'HTTP_CLIENT_IP',
             'HTTP_X_REAL_IP',
@@ -260,7 +267,7 @@ class GeoIP
      *
      * @return bool
      */
-    private function isValid($ip)
+    private function isValid($ip): bool
     {
         if (! filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4 | FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE)
             && ! filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV6 | FILTER_FLAG_NO_PRIV_RANGE)
@@ -274,31 +281,28 @@ class GeoIP
     /**
      * Determine if the location should be cached.
      *
-     * @param Location    $location
+     * @param Location $location
      * @param string|null $ip
      *
      * @return bool
      */
-    private function shouldCache(Location $location, $ip = null)
+    private function shouldCache(Location $location, $ip = null): bool
     {
         if ($location->default === true || $location->cached === true) {
             return false;
         }
 
-        switch ($this->config('cache', 'none')) {
-            case 'all':
-            case 'some' && $ip === null:
-                return true;
-        }
-
-        return false;
+        return match ($this->config('cache', 'none')) {
+            'all', 'some' && $ip === null => true,
+            default => false,
+        };
     }
 
     /**
      * Get configuration value.
      *
      * @param string $key
-     * @param mixed  $default
+     * @param mixed $default
      *
      * @return mixed
      */

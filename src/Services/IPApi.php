@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace InteractionDesignFoundation\GeoIP\Services;
 
 use Exception;
@@ -32,7 +34,7 @@ class IPApi extends AbstractService
         $base = [
             'base_uri' => 'http://ip-api.com/',
             'headers' => [
-                'User-Agent' => 'Laravel-GeoIP',
+                'User-Agent' => 'Laravel-GeoIP-InteractionDesignFoundation',
             ],
             'query' => [
                 'fields' => 49663,
@@ -55,24 +57,28 @@ class IPApi extends AbstractService
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
+     * @throws \RuntimeException
      */
     public function locate($ip)
     {
-        // Get data from client
+        // Get data from the client
         $data = $this->client->get('json/' . $ip);
 
         // Verify server response
         if ($this->client->getErrors() !== null) {
-            throw new Exception('Request failed (' . $this->client->getErrors() . ')');
+            throw new \RuntimeException("Unexpected ip-api.com response: {$this->client->getErrors()}");
         }
 
         // Parse body content
         $json = json_decode($data[0]);
+        if (! is_object($json) || ! property_exists($json, 'status')) {
+            throw new \RuntimeException("Unexpected ip-api.com response: {$json->message}");
+        }
 
         // Verify response status
         if ($json->status !== 'success') {
-            throw new Exception('Request failed (' . $json->message . ')');
+            throw new \RuntimeException("Failed ip-api.com response: {$json->message}");
         }
 
         return $this->hydrate([
@@ -130,13 +136,13 @@ class IPApi extends AbstractService
     }
 
     /**
-     * Get continent based on country code.
+     * Get a continent based on country code.
      *
      * @param string $code
      *
      * @return string
      */
-    private function getContinent($code)
+    private function getContinent(string $code): string
     {
         return Arr::get($this->continents, $code, 'Unknown');
     }

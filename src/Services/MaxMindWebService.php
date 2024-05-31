@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace InteractionDesignFoundation\GeoIP\Services;
 
 use GeoIp2\WebService\Client;
@@ -27,9 +29,7 @@ class MaxMindWebService extends AbstractService
         );
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    /** {@inheritDoc} */
     public function locate($ip)
     {
         $record = $this->client->city($ip);

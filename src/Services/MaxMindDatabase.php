@@ -1,9 +1,9 @@
 <?php
 
+declare(strict_types=1);
+
 namespace InteractionDesignFoundation\GeoIP\Services;
 
-use PharData;
-use Exception;
 use GeoIp2\Database\Reader;
 
 class MaxMindDatabase extends AbstractService
@@ -23,22 +23,26 @@ class MaxMindDatabase extends AbstractService
     public function boot()
     {
         $path = $this->config('database_path');
+        assert(is_string($path), 'Invalid "database_path" config value');
 
         // Copy test database for now
         if (is_file($path) === false) {
-            @mkdir(dirname($path));
+            if (!is_dir($concurrentDirectory = dirname($path)) &&
+                !mkdir($concurrentDirectory) &&
+                !is_dir($concurrentDirectory)) {
+                throw new \RuntimeException(sprintf('Directory "%s" was not created', $concurrentDirectory));
+            }
 
             copy(__DIR__ . '/../../resources/geoip.mmdb', $path);
         }
 
         $this->reader = new Reader(
-            $path, $this->config('locales', ['en'])
+            $path,
+            $this->config('locales', ['en'])
         );
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    /** {@inheritDoc} */
     public function locate($ip)
     {
         $record = $this->reader->city($ip);
@@ -62,20 +66,20 @@ class MaxMindDatabase extends AbstractService
      * Update function for service.
      *
      * @return string
-     * @throws Exception
+     * @throws \Exception
      */
     public function update()
     {
         if ($this->config('database_path', false) === false) {
-            throw new Exception('Database path not set in config file.');
+            throw new \Exception('Database path not set in config file.');
         }
 
-        $this->withTemporaryDirectory(function ($directory) {
+        $this->withTemporaryDirectory(function ($directory): void {
             $tarFile = sprintf('%s/maxmind.tar.gz', $directory);
 
             $this->downloadFileByUrl($tarFile, $this->config('update_url'));
 
-            $archive = new PharData($tarFile);
+            $archive = new \PharData($tarFile);
 
             $file = $this->findDatabaseFile($archive);
 
@@ -83,17 +87,17 @@ class MaxMindDatabase extends AbstractService
 
             $archive->extractTo($directory, $relativePath);
 
-            file_put_contents($this->config('database_path'), fopen("{$directory}/{$relativePath}", 'r'));
+            file_put_contents($this->config('database_path'), fopen("{$directory}/{$relativePath}", 'rb'));
         });
 
         return "Database file ({$this->config('database_path')}) updated.";
     }
 
     /**
-     * Provide a temporary directory to perform operations in and and ensure
-     * it is removed afterwards.
+     * Provide a temporary directory to perform operations in
+     * and ensure it is removed afterward.
      *
-     * @param callable $callback
+     * @param callable(string):void $callback
      *
      * @return void
      */
@@ -105,7 +109,9 @@ class MaxMindDatabase extends AbstractService
             unlink($directory);
         }
 
-        mkdir($directory);
+        if (!mkdir($directory) && !is_dir($directory)) {
+            throw new \RuntimeException(sprintf('Directory "%s" was not created', $directory));
+        }
 
         try {
             $callback($directory);
@@ -119,22 +125,23 @@ class MaxMindDatabase extends AbstractService
      *
      * @param \PharData $archive
      *
-     * @return mixed
+     * @return \PharFileInfo
      * @throws \Exception
      */
-    protected function findDatabaseFile($archive)
+    protected function findDatabaseFile(\PharData $archive)
     {
+        /** @var \PharFileInfo $file */
         foreach ($archive as $file) {
             if ($file->isDir()) {
-                return $this->findDatabaseFile(new PharData($file->getPathName()));
+                return $this->findDatabaseFile(new \PharData($file->getPathName()));
             }
 
-            if (pathinfo($file, PATHINFO_EXTENSION) === 'mmdb') {
+            if (pathinfo($file->getPathName(), \PATHINFO_EXTENSION) === 'mmdb') {
                 return $file;
             }
         }
 
-        throw new Exception('Database file could not be found within archive.');
+        throw new \Exception('Database file could not be found within archive.');
     }
 
     /**
@@ -155,7 +162,7 @@ class MaxMindDatabase extends AbstractService
         }
 
         foreach (scandir($directory) as $item) {
-            if ($item == '.' || $item == '..') {
+            if ($item === '.' || $item === '..') {
                 continue;
             }
 
