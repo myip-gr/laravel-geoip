@@ -182,7 +182,7 @@ class MaxMindDatabase extends AbstractService
         } elseif (extension_loaded('curl')) {
             $fp = fopen($filename, 'wb+');
             if ($fp === false) {
-                throw new \RuntimeException("Cannot open $filename file for writing.");
+                throw new \RuntimeException("Cannot open {$filename} file for writing.");
             }
             $ch = curl_init();
             curl_setopt($ch, \CURLOPT_URL, $url);
