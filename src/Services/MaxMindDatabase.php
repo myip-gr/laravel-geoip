@@ -77,7 +77,7 @@ class MaxMindDatabase extends AbstractService
         $this->withTemporaryDirectory(function ($directory): void {
             $tarFile = sprintf('%s/maxmind.tar.gz', $directory);
 
-            file_put_contents($tarFile, fopen($this->config('update_url'), 'rb'));
+            $this->downloadFileByUrl($tarFile, $this->config('update_url'));
 
             $archive = new \PharData($tarFile);
 
@@ -172,5 +172,27 @@ class MaxMindDatabase extends AbstractService
         }
 
         return rmdir($directory);
+    }
+
+    protected function downloadFileByUrl(string $filename, string $url): void
+    {
+        $canUseFopenForUrl = in_array(strtolower((string) ini_get('allow_url_fopen')), ['1', 'on'], true);
+        if ($canUseFopenForUrl) {
+            file_put_contents($filename, fopen($url, 'rb'));
+        } elseif (extension_loaded('curl')) {
+            $fp = fopen($filename, 'wb+');
+            if ($fp === false) {
+                throw new \RuntimeException("Cannot open {$filename} file for writing.");
+            }
+            $ch = curl_init();
+            curl_setopt($ch, \CURLOPT_URL, $url);
+            curl_setopt($ch, \CURLOPT_FILE, $fp);
+            curl_setopt($ch, \CURLOPT_FOLLOWLOCATION, true);
+            curl_exec($ch);
+            curl_close($ch);
+            fclose($fp);
+        } else {
+            throw new \RuntimeException('Cannot download the file. Please enable allow_url_fopen or install curl extension.');
+        }
     }
 }
