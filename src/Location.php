@@ -42,6 +42,7 @@ use Illuminate\Support\Arr;
  *     currency?: string|null,
  *     default?: bool,
  *     cached?: bool,
+ *     localizations?: array<string, string|null>,
  * }
  * How to use it: @@psalm-import-type LocationArray from \InteractionDesignFoundation\GeoIP\Location
  */

@@ -51,6 +51,7 @@ class MaxMindWebService extends AbstractService
             'localizations' => $this->getLocalizations($record),
         ]);
     }
+
     /**
      * Get localized country name, state name and city name based on config languages
      * @return array<string, string|null>
