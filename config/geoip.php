@@ -40,7 +40,7 @@ return [
     |
     */
 
-    'service' => env('GEOIP_SERVICE', 'ipapi'),
+    'service' => env('GEOIP_SERVICE', null),
 
     /*
     |--------------------------------------------------------------------------
