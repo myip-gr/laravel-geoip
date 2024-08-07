@@ -17,6 +17,7 @@ This fork works with modern PHP versions only (8.0+), maintained and includes ad
  - Better types (native and PHPDoc)
  - Safer file and network functionality
  - Ability to prefix cache keys (`cache_prefix` config option)
+ - Ability to change service using `GEOIP_SERVICE` env var
  - Updated currencies
  - More predictable exceptions
 
