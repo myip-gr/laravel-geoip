@@ -1,13 +1,13 @@
 {
   "name": "interaction-design-foundation/laravel-geoip",
-  "description": "Support for multiple GeoIP services.",
+  "description": "Support for multiple Geographical Location services.",
   "license": "BSD-2-Clause",
   "keywords": [
     "laravel",
     "geoip",
+    "geographical",
     "location",
     "geolocation",
-    "MaxMind",
     "IP API",
     "infoDB"
   ],

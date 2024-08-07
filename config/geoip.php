@@ -34,9 +34,9 @@ return [
     |--------------------------------------------------------------------------
     |
     | Here you may specify the default storage driver that should be used
-    | by the framework.
+    | by the framework using the services listed below.
     |
-    | Supported: "maxmind_database", "maxmind_api", "ipapi"
+    | Supported: "maxmind_database", "maxmind_api", "ipapi", "ipgeolocation", "ipdata", "ipfinder"
     |
     */
 
