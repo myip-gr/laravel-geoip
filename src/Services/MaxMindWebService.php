@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace InteractionDesignFoundation\GeoIP\Services;
 
+use GeoIp2\Model\City;
 use GeoIp2\WebService\Client;
+use Illuminate\Support\Arr;
 
 class MaxMindWebService extends AbstractService
 {
@@ -46,6 +48,23 @@ class MaxMindWebService extends AbstractService
             'lon' => $record->location->longitude,
             'timezone' => $record->location->timeZone,
             'continent' => $record->continent->code,
+            'localizations' => $this->getLocalizations($record),
         ]);
+    }
+    /**
+     * Get localized country name, state name and city name based on config languages
+     * @return array<string, string|null>
+     */
+    private function getLocalizations(City $record): array
+    {
+        $localizations = [];
+
+        foreach ($this->config('locales', ['en']) as $lang) {
+            $localizations[$lang]['country'] = Arr::get($record->country->names, $lang);
+            $localizations[$lang]['state_name'] = Arr::get($record->mostSpecificSubdivision->names, $lang);
+            $localizations[$lang]['city'] = Arr::get($record->city->names, $lang);
+        }
+
+        return $localizations;
     }
 }

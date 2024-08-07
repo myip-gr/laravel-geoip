@@ -198,9 +198,10 @@ class MaxMindDatabase extends AbstractService
             throw new \RuntimeException('Cannot download the file. Please enable allow_url_fopen or install curl extension.');
         }
     }
+
     /**
      * Get localized country name, state name and city name based on config languages
-     * @return array<string, string>
+     * @return array<string, string|null>
      */
     private function getLocalizations(City $record): array
     {
