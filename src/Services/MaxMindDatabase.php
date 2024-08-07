@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace InteractionDesignFoundation\GeoIP\Services;
 
 use GeoIp2\Database\Reader;
+use GeoIp2\Model\City;
+use Illuminate\Support\Arr;
 
 class MaxMindDatabase extends AbstractService
 {
@@ -59,6 +61,7 @@ class MaxMindDatabase extends AbstractService
             'lon' => $record->location->longitude,
             'timezone' => $record->location->timeZone,
             'continent' => $record->continent->code,
+            'localizations' => $this->getLocalizations($record),
         ]);
     }
 
@@ -194,5 +197,21 @@ class MaxMindDatabase extends AbstractService
         } else {
             throw new \RuntimeException('Cannot download the file. Please enable allow_url_fopen or install curl extension.');
         }
+    }
+    /**
+     * Get localized country name, state name and city name based on config languages
+     * @return array<string, string>
+     */
+    private function getLocalizations(City $record): array
+    {
+        $localizations = [];
+
+        foreach ($this->config('locales', ['en']) as $lang) {
+            $localizations[$lang]['country'] = Arr::get($record->country->names, $lang);
+            $localizations[$lang]['state_name'] = Arr::get($record->mostSpecificSubdivision->names, $lang);
+            $localizations[$lang]['city'] = Arr::get($record->city->names, $lang);
+        }
+
+        return $localizations;
     }
 }
