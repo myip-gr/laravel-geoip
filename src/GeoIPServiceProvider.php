@@ -17,10 +17,8 @@ class GeoIPServiceProvider extends ServiceProvider
     {
         $this->registerGeoIpService();
 
-        if ($this->app->runningInConsole()) {
-            $this->registerResources();
-            $this->registerGeoIpCommands();
-        }
+        $this->registerResources();
+        $this->registerGeoIpCommands();
 
         $this->mergeConfigFrom(__DIR__ . '/../config/geoip.php', 'geoip');
     }
