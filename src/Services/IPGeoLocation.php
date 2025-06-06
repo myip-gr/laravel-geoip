@@ -21,23 +21,25 @@ class IPGeoLocation extends AbstractService
      *
      * @return void
      */
-    public function boot()
+    #[\Override]
+    public function boot(): void
     {
         $base = [
             'base_uri' => 'https://api.ipgeolocation.io/',
         ];
 
         if ($this->config('key')) {
-            $base['base_uri'] = "{$base['base_uri']}ipgeo?apiKey=" . $this->config('key');
+            $base['base_uri'] = $base['base_uri'] . 'ipgeo?apiKey=' . $this->config('key');
         }
 
         $this->client = new HttpClient($base);
     }
 
     /** {@inheritDoc} */
-    public function locate($ip)
+    #[\Override]
+    public function locate($ip): \InteractionDesignFoundation\GeoIP\Location
     {
-        // Get data from client
+        // Get data from a client
         $data = $this->client->get('&ip=' . $ip);
 
         // Verify server response
@@ -46,7 +48,7 @@ class IPGeoLocation extends AbstractService
         }
 
         // Parse body content
-        $json = json_decode($data[0], true);
+        $json = json_decode((string) $data[0], true);
 
         return $this->hydrate($json);
     }

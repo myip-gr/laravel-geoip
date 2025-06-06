@@ -22,17 +22,21 @@ class MaxMindWebService extends AbstractService
      *
      * @return void
      */
-    public function boot()
+    #[\Override]
+    public function boot(): void
     {
+        $this->ensureConfigurationParameterDefined(['user_id', 'license_key']);
+
         $this->client = new Client(
-            $this->config('user_id'),
+            (int) $this->config('user_id'),
             $this->config('license_key'),
             $this->config('locales', ['en'])
         );
     }
 
     /** {@inheritDoc} */
-    public function locate($ip)
+    #[\Override]
+    public function locate($ip): \InteractionDesignFoundation\GeoIP\Location
     {
         $record = $this->client->city($ip);
 

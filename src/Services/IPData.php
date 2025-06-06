@@ -17,13 +17,12 @@ class IPData extends AbstractService
      */
     protected $client;
 
-    /**
-     * The "booting" method of the service.
-     *
-     * @return void
-     */
-    public function boot()
+    /** The "booting" method of the service. */
+    #[\Override]
+    public function boot(): void
     {
+        $this->ensureConfigurationParameterDefined('key');
+
         $this->client = new HttpClient([
             'base_uri' => 'https://api.ipdata.co/',
             'query' => [
@@ -36,9 +35,10 @@ class IPData extends AbstractService
      * {@inheritDoc}
      * @throws Exception
      */
-    public function locate($ip)
+    #[\Override]
+    public function locate($ip): \InteractionDesignFoundation\GeoIP\Location
     {
-        // Get data from client
+        // Get data from a client
         $data = $this->client->get($ip);
 
         // Verify server response
@@ -46,7 +46,7 @@ class IPData extends AbstractService
             throw new Exception('Request failed (' . $this->client->getErrors() . ')');
         }
 
-        $json = json_decode($data[0], true);
+        $json = json_decode((string) $data[0], true);
 
         return $this->hydrate([
             'ip' => $ip,

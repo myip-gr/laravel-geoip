@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace InteractionDesignFoundation\GeoIP\Console;
 
 use Illuminate\Console\Command;
+use InteractionDesignFoundation\GeoIP\Exceptions\MissingConfigurationException;
 
 class Update extends Command
 {
@@ -22,32 +23,23 @@ class Update extends Command
      */
     protected $description = 'Update GeoIP database files to the latest version';
 
-    /**
-     * Execute the console command for Laravel 5.5 and newer.
-     *
-     * @return void
-     */
-    public function handle()
-    {
-        $this->fire();
-    }
-
-    /**
-     * Execute the console command.
-     * @deprecated Use {@see self::handle()} instead.
-     *
-     * @return void
-     */
-    public function fire()
+    public function handle(): int
     {
         // Get default service
-        $service = app('geoip')->getService();
+        try {
+            /** @var \InteractionDesignFoundation\GeoIP\Contracts\ServiceInterface $service */
+            $service = app('geoip')->getService();
+        } catch (MissingConfigurationException $missingConfigurationException) {
+            $this->components->error($missingConfigurationException->getMessage());
+
+            return static::FAILURE;
+        }
 
         // Ensure the selected service supports updating
         if (method_exists($service, 'update') === false) {
-            $this->info('The current service "' . get_class($service) . '" does not support updating.');
+            $this->info('The current service "' . $service::class . '" does not support updating.');
 
-            return;
+            return static::SUCCESS;
         }
 
         $this->comment('Updating...');
@@ -57,6 +49,9 @@ class Update extends Command
             $this->info($result);
         } else {
             $this->error('Update failed!');
+            return static::FAILURE;
         }
+
+        return static::SUCCESS;
     }
 }
