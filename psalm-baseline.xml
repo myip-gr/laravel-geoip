@@ -1,23 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<files psalm-version="5.25.0@01a8eb06b9e9cc6cfb6a320bf9fb14331919d505">
+<files psalm-version="6.8.8@1361cd33008feb3ae2b4a93f1860e14e538ec8c2">
   <file src="src/Cache.php">
-    <MixedInferredReturnType>
-      <code><![CDATA[bool]]></code>
-    </MixedInferredReturnType>
-    <MixedReturnStatement>
-      <code><![CDATA[$this->cache->flush()]]></code>
-    </MixedReturnStatement>
-    <PossiblyInvalidPropertyAssignmentValue>
-      <code><![CDATA[($tags === [] || !$cache->supportsTags()) ? $cache : $cache->tags($tags)]]></code>
-    </PossiblyInvalidPropertyAssignmentValue>
+    <ClassMustBeFinal>
+      <code><![CDATA[Cache]]></code>
+    </ClassMustBeFinal>
+    <UndefinedMagicMethod>
+      <code><![CDATA[flush]]></code>
+    </UndefinedMagicMethod>
   </file>
   <file src="src/Console/Clear.php">
-    <DeprecatedMethod>
-      <code><![CDATA[fire]]></code>
-    </DeprecatedMethod>
-    <InvalidReturnStatement>
-      <code><![CDATA[$this->output->error('Default cache system does not support tags')]]></code>
-    </InvalidReturnStatement>
+    <ClassMustBeFinal>
+      <code><![CDATA[Clear]]></code>
+    </ClassMustBeFinal>
     <MixedMethodCall>
       <code><![CDATA[config]]></code>
       <code><![CDATA[flush]]></code>
@@ -34,13 +28,11 @@
     </PropertyNotSetInConstructor>
   </file>
   <file src="src/Console/Update.php">
-    <DeprecatedMethod>
-      <code><![CDATA[fire]]></code>
-    </DeprecatedMethod>
+    <ClassMustBeFinal>
+      <code><![CDATA[Update]]></code>
+    </ClassMustBeFinal>
     <MixedArgument>
       <code><![CDATA[$result]]></code>
-      <code><![CDATA[$service]]></code>
-      <code><![CDATA[$service]]></code>
     </MixedArgument>
     <MixedAssignment>
       <code><![CDATA[$result]]></code>
@@ -48,6 +40,12 @@
     <MixedMethodCall>
       <code><![CDATA[getService]]></code>
     </MixedMethodCall>
+    <MixedReturnStatement>
+      <code><![CDATA[static::FAILURE]]></code>
+      <code><![CDATA[static::FAILURE]]></code>
+      <code><![CDATA[static::SUCCESS]]></code>
+      <code><![CDATA[static::SUCCESS]]></code>
+    </MixedReturnStatement>
     <NonInvariantDocblockPropertyType>
       <code><![CDATA[$description]]></code>
     </NonInvariantDocblockPropertyType>
@@ -64,34 +62,24 @@
       <code><![CDATA[LocationArray]]></code>
     </InvalidParamDefault>
   </file>
+  <file src="src/Exceptions/MissingConfigurationException.php">
+    <ClassMustBeFinal>
+      <code><![CDATA[MissingConfigurationException]]></code>
+    </ClassMustBeFinal>
+  </file>
   <file src="src/GeoIP.php">
+    <ClassMustBeFinal>
+      <code><![CDATA[GeoIP]]></code>
+    </ClassMustBeFinal>
     <DeprecatedConstant>
-      <code><![CDATA[Logger::ERROR]]></code>
+      <code><![CDATA[\Monolog\Logger::ERROR]]></code>
     </DeprecatedConstant>
     <DeprecatedMethod>
       <code><![CDATA[setPrefix]]></code>
     </DeprecatedMethod>
-    <DeprecatedProperty>
-      <code><![CDATA[$this->remote_ip]]></code>
-      <code><![CDATA[$this->remote_ip]]></code>
-    </DeprecatedProperty>
     <DocblockTypeContradiction>
-      <code><![CDATA[$this->currencies === null]]></code>
       <code><![CDATA[$this->service === null]]></code>
     </DocblockTypeContradiction>
-    <InvalidPropertyAssignmentValue>
-      <code><![CDATA[new Cache(
-            $cache,
-            $this->config('cache_tags'),
-            $this->config('cache_expires', 30)
-        )]]></code>
-    </InvalidPropertyAssignmentValue>
-    <InvalidReturnStatement>
-      <code><![CDATA[$this->cache]]></code>
-    </InvalidReturnStatement>
-    <InvalidReturnType>
-      <code><![CDATA[\InteractionDesignFoundation\GeoIP\Cache]]></code>
-    </InvalidReturnType>
     <LessSpecificReturnStatement>
       <code><![CDATA[$this->service]]></code>
     </LessSpecificReturnStatement>
@@ -108,9 +96,6 @@
       <code><![CDATA[$class]]></code>
       <code><![CDATA[$config]]></code>
     </MixedAssignment>
-    <MixedInferredReturnType>
-      <code><![CDATA[string]]></code>
-    </MixedInferredReturnType>
     <MixedMethodCall>
       <code><![CDATA[new $class($config)]]></code>
     </MixedMethodCall>
@@ -124,13 +109,9 @@
       <code><![CDATA[\InteractionDesignFoundation\GeoIP\Contracts\ServiceInterface]]></code>
     </MoreSpecificReturnType>
     <PossiblyNullArgument>
-      <code><![CDATA[$ip]]></code>
       <code><![CDATA[$location->iso_code]]></code>
+      <code><![CDATA[$this->currencies]]></code>
     </PossiblyNullArgument>
-    <PossiblyNullPropertyAssignmentValue>
-      <code><![CDATA[null]]></code>
-      <code><![CDATA[null]]></code>
-    </PossiblyNullPropertyAssignmentValue>
     <PropertyNotSetInConstructor>
       <code><![CDATA[$service]]></code>
     </PropertyNotSetInConstructor>
@@ -144,24 +125,25 @@
     </RiskyTruthyFalsyComparison>
   </file>
   <file src="src/GeoIPServiceProvider.php">
-    <MissingClosureParamType>
-      <code><![CDATA[$app]]></code>
-    </MissingClosureParamType>
+    <ClassMustBeFinal>
+      <code><![CDATA[GeoIPServiceProvider]]></code>
+    </ClassMustBeFinal>
     <MixedArgument>
-      <code><![CDATA[$app->config->get('geoip', [])]]></code>
       <code><![CDATA[$app['cache']]]></code>
+      <code><![CDATA[$app['config']->get('geoip', [])]]></code>
     </MixedArgument>
-    <MixedArrayAccess>
-      <code><![CDATA[$app['cache']]]></code>
-    </MixedArrayAccess>
     <MixedMethodCall>
       <code><![CDATA[get]]></code>
     </MixedMethodCall>
-    <MixedPropertyFetch>
-      <code><![CDATA[$app->config]]></code>
-    </MixedPropertyFetch>
+    <UndefinedInterfaceMethod>
+      <code><![CDATA[$app]]></code>
+      <code><![CDATA[$app]]></code>
+    </UndefinedInterfaceMethod>
   </file>
   <file src="src/Location.php">
+    <ClassMustBeFinal>
+      <code><![CDATA[Location]]></code>
+    </ClassMustBeFinal>
     <InvalidParamDefault>
       <code><![CDATA[LocationArray]]></code>
     </InvalidParamDefault>
@@ -169,28 +151,36 @@
       <code><![CDATA[$key]]></code>
       <code><![CDATA[$value]]></code>
     </MissingParamType>
-    <MissingTemplateParam>
-      <code><![CDATA[ArrayAccess]]></code>
-    </MissingTemplateParam>
     <MixedArgument>
       <code><![CDATA[$key]]></code>
     </MixedArgument>
     <MixedAssignment>
       <code><![CDATA[$value]]></code>
     </MixedAssignment>
-    <MixedInferredReturnType>
-      <code><![CDATA[bool]]></code>
-    </MixedInferredReturnType>
     <MixedReturnStatement>
       <code><![CDATA[is_null($value) ? false : $value]]></code>
       <code><![CDATA[is_null($value) ? false : $value]]></code>
     </MixedReturnStatement>
+    <PossiblyNullArgument>
+      <code><![CDATA[$this->city]]></code>
+      <code><![CDATA[$this->state]]></code>
+    </PossiblyNullArgument>
+    <PropertyTypeCoercion>
+      <code><![CDATA[$this->attributes]]></code>
+    </PropertyTypeCoercion>
+  </file>
+  <file src="src/Services/AbstractService.php">
+    <MixedAssignment>
+      <code><![CDATA[$configValue]]></code>
+    </MixedAssignment>
   </file>
   <file src="src/Services/IPApi.php">
+    <ClassMustBeFinal>
+      <code><![CDATA[IPApi]]></code>
+    </ClassMustBeFinal>
     <MixedArgument>
-      <code><![CDATA[$data[0]]]></code>
-      <code><![CDATA[$data[0]]]></code>
       <code><![CDATA[$json->countryCode]]></code>
+      <code><![CDATA[$path]]></code>
       <code><![CDATA[$path]]></code>
       <code><![CDATA[$this->config('continent_path')]]></code>
       <code><![CDATA[$this->config('continent_path')]]></code>
@@ -215,29 +205,41 @@
       <code><![CDATA[$path]]></code>
       <code><![CDATA[$this->continents]]></code>
     </MixedAssignment>
-    <MixedInferredReturnType>
-      <code><![CDATA[string]]></code>
-    </MixedInferredReturnType>
+    <MixedOperand>
+      <code><![CDATA[$json->message]]></code>
+      <code><![CDATA[$json->message]]></code>
+    </MixedOperand>
     <MixedPropertyFetch>
       <code><![CDATA[$json->message]]></code>
     </MixedPropertyFetch>
     <MixedReturnStatement>
       <code><![CDATA[Arr::get($this->continents, $code, 'Unknown')]]></code>
     </MixedReturnStatement>
+    <PossiblyFalseArgument>
+      <code><![CDATA[file_get_contents($this->config('continent_path'))]]></code>
+      <code><![CDATA[json_encode($output)]]></code>
+    </PossiblyFalseArgument>
+    <PossiblyNullArgument>
+      <code><![CDATA[$this->client->getErrors()]]></code>
+    </PossiblyNullArgument>
     <PossiblyNullArrayOffset>
       <code><![CDATA[$output]]></code>
     </PossiblyNullArrayOffset>
+    <PossiblyNullOperand>
+      <code><![CDATA[$this->client->getErrors()]]></code>
+    </PossiblyNullOperand>
     <PropertyNotSetInConstructor>
       <code><![CDATA[$continents]]></code>
     </PropertyNotSetInConstructor>
-    <RedundantConditionGivenDocblockType>
-      <code><![CDATA[$this->client->getErrors() !== null]]></code>
-      <code><![CDATA[$this->client->getErrors() !== null]]></code>
-    </RedundantConditionGivenDocblockType>
+    <RedundantCastGivenDocblockType>
+      <code><![CDATA[(string) $line]]></code>
+    </RedundantCastGivenDocblockType>
   </file>
   <file src="src/Services/IPData.php">
+    <ClassMustBeFinal>
+      <code><![CDATA[IPData]]></code>
+    </ClassMustBeFinal>
     <MixedArgument>
-      <code><![CDATA[$data[0]]]></code>
       <code><![CDATA[$json]]></code>
       <code><![CDATA[$json]]></code>
       <code><![CDATA[$json]]></code>
@@ -271,25 +273,29 @@
     <MixedAssignment>
       <code><![CDATA[$json]]></code>
     </MixedAssignment>
-    <RedundantConditionGivenDocblockType>
-      <code><![CDATA[$this->client->getErrors() !== null]]></code>
-    </RedundantConditionGivenDocblockType>
+    <PossiblyNullOperand>
+      <code><![CDATA[$this->client->getErrors()]]></code>
+    </PossiblyNullOperand>
   </file>
   <file src="src/Services/IPFinder.php">
+    <ClassMustBeFinal>
+      <code><![CDATA[IPFinder]]></code>
+    </ClassMustBeFinal>
     <MixedArgument>
-      <code><![CDATA[$data[0]]]></code>
       <code><![CDATA[$json]]></code>
     </MixedArgument>
     <MixedAssignment>
       <code><![CDATA[$json]]></code>
     </MixedAssignment>
-    <RedundantConditionGivenDocblockType>
-      <code><![CDATA[$this->client->getErrors() !== null]]></code>
-    </RedundantConditionGivenDocblockType>
+    <PossiblyNullOperand>
+      <code><![CDATA[$this->client->getErrors()]]></code>
+    </PossiblyNullOperand>
   </file>
   <file src="src/Services/IPGeoLocation.php">
+    <ClassMustBeFinal>
+      <code><![CDATA[IPGeoLocation]]></code>
+    </ClassMustBeFinal>
     <MixedArgument>
-      <code><![CDATA[$data[0]]]></code>
       <code><![CDATA[$json]]></code>
     </MixedArgument>
     <MixedAssignment>
@@ -298,11 +304,14 @@
     <MixedOperand>
       <code><![CDATA[$this->config('key')]]></code>
     </MixedOperand>
-    <RedundantConditionGivenDocblockType>
-      <code><![CDATA[$this->client->getErrors() !== null]]></code>
-    </RedundantConditionGivenDocblockType>
+    <PossiblyNullOperand>
+      <code><![CDATA[$this->client->getErrors()]]></code>
+    </PossiblyNullOperand>
   </file>
   <file src="src/Services/MaxMindDatabase.php">
+    <ClassMustBeFinal>
+      <code><![CDATA[MaxMindDatabase]]></code>
+    </ClassMustBeFinal>
     <InvalidReturnStatement>
       <code><![CDATA[$localizations]]></code>
     </InvalidReturnStatement>
@@ -314,6 +323,7 @@
       <code><![CDATA[$lang]]></code>
       <code><![CDATA[$lang]]></code>
       <code><![CDATA[$this->config('database_path')]]></code>
+      <code><![CDATA[$this->config('database_path')]]></code>
       <code><![CDATA[$this->config('locales', ['en'])]]></code>
       <code><![CDATA[$this->config('update_url')]]></code>
     </MixedArgument>
@@ -323,13 +333,39 @@
       <code><![CDATA[$localizations[$lang]]]></code>
     </MixedArrayOffset>
     <MixedAssignment>
+      <code><![CDATA[$item]]></code>
       <code><![CDATA[$lang]]></code>
       <code><![CDATA[$localizations[$lang]['city']]]></code>
       <code><![CDATA[$localizations[$lang]['country']]]></code>
       <code><![CDATA[$localizations[$lang]['state_name']]]></code>
     </MixedAssignment>
+    <MixedOperand>
+      <code><![CDATA[$item]]></code>
+    </MixedOperand>
+    <PossiblyFalseArgument>
+      <code><![CDATA[$ch]]></code>
+      <code><![CDATA[$ch]]></code>
+      <code><![CDATA[$ch]]></code>
+      <code><![CDATA[$ch]]></code>
+      <code><![CDATA[$ch]]></code>
+      <code><![CDATA[$directory]]></code>
+      <code><![CDATA[$directory]]></code>
+      <code><![CDATA[$directory]]></code>
+      <code><![CDATA[$directory]]></code>
+      <code><![CDATA[$directory]]></code>
+      <code><![CDATA[$directory]]></code>
+      <code><![CDATA[$directory]]></code>
+      <code><![CDATA[fopen($url, 'rb')]]></code>
+      <code><![CDATA[fopen(sprintf('%s/%s', $directory, $relativePath), 'rb')]]></code>
+    </PossiblyFalseArgument>
+    <PossiblyFalseIterator>
+      <code><![CDATA[scandir($directory)]]></code>
+    </PossiblyFalseIterator>
   </file>
   <file src="src/Services/MaxMindWebService.php">
+    <ClassMustBeFinal>
+      <code><![CDATA[MaxMindWebService]]></code>
+    </ClassMustBeFinal>
     <InvalidReturnStatement>
       <code><![CDATA[$localizations]]></code>
     </InvalidReturnStatement>
@@ -342,7 +378,6 @@
       <code><![CDATA[$lang]]></code>
       <code><![CDATA[$this->config('license_key')]]></code>
       <code><![CDATA[$this->config('locales', ['en'])]]></code>
-      <code><![CDATA[$this->config('user_id')]]></code>
     </MixedArgument>
     <MixedArrayOffset>
       <code><![CDATA[$localizations[$lang]]]></code>
@@ -357,34 +392,46 @@
     </MixedAssignment>
   </file>
   <file src="src/Support/HttpClient.php">
-    <DocblockTypeContradiction>
-      <code><![CDATA[is_null($this->errors)]]></code>
-    </DocblockTypeContradiction>
+    <ClassMustBeFinal>
+      <code><![CDATA[HttpClient]]></code>
+    </ClassMustBeFinal>
     <MixedArgument>
       <code><![CDATA[$header_size]]></code>
+      <code><![CDATA[$row]]></code>
       <code><![CDATA[Arr::get($this->config, 'headers', [])]]></code>
       <code><![CDATA[Arr::get($this->config, 'query', [])]]></code>
       <code><![CDATA[Arr::get($this->config, 'query', [])]]></code>
     </MixedArgument>
     <MixedAssignment>
       <code><![CDATA[$header_size]]></code>
+      <code><![CDATA[$row]]></code>
       <code><![CDATA[$this->http_code]]></code>
     </MixedAssignment>
     <MixedOperand>
       <code><![CDATA[Arr::get($this->config, 'base_uri')]]></code>
     </MixedOperand>
-    <PossiblyNullPropertyAssignmentValue>
-      <code><![CDATA[null]]></code>
-      <code><![CDATA[null]]></code>
-    </PossiblyNullPropertyAssignmentValue>
+    <PossiblyFalseArgument>
+      <code><![CDATA[$curl]]></code>
+      <code><![CDATA[$curl]]></code>
+      <code><![CDATA[$curl]]></code>
+      <code><![CDATA[$curl]]></code>
+      <code><![CDATA[$curl]]></code>
+      <code><![CDATA[$curl]]></code>
+      <code><![CDATA[$curl]]></code>
+      <code><![CDATA[$curl]]></code>
+      <code><![CDATA[$curl]]></code>
+      <code><![CDATA[$curl]]></code>
+      <code><![CDATA[$curl]]></code>
+      <code><![CDATA[$curl]]></code>
+    </PossiblyFalseArgument>
+    <PossiblyFalseIterator>
+      <code><![CDATA[preg_split("/\\r\\n|\\r|\\n/", $headers)]]></code>
+    </PossiblyFalseIterator>
     <RiskyTruthyFalsyComparison>
       <code><![CDATA[strpos($url, '?')]]></code>
     </RiskyTruthyFalsyComparison>
   </file>
   <file src="src/helpers.php">
-    <MixedInferredReturnType>
-      <code><![CDATA[($ip is null ? \InteractionDesignFoundation\GeoIP\GeoIP : \InteractionDesignFoundation\GeoIP\Location)]]></code>
-    </MixedInferredReturnType>
     <MixedMethodCall>
       <code><![CDATA[getLocation]]></code>
     </MixedMethodCall>

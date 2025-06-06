@@ -4,16 +4,17 @@ declare(strict_types=1);
 
 namespace InteractionDesignFoundation\GeoIP;
 
+use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Support\ServiceProvider;
 
 class GeoIPServiceProvider extends ServiceProvider
 {
     /**
      * Register the service provider.
-     *
      * @return void
      */
-    public function register()
+    #[\Override]
+    public function register(): void
     {
         $this->registerGeoIpService();
 
@@ -28,14 +29,12 @@ class GeoIPServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function registerGeoIpService()
+    public function registerGeoIpService(): void
     {
-        $this->app->singleton('geoip', function ($app) {
-            return new GeoIP(
-                $app->config->get('geoip', []),
-                $app['cache']
-            );
-        });
+        $this->app->singleton('geoip', static fn(Application $app): GeoIP => new GeoIP(
+            $app['config']->get('geoip', []),
+            $app['cache']
+        ));
     }
 
     /**
@@ -43,7 +42,7 @@ class GeoIPServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function registerResources()
+    public function registerResources(): void
     {
         $this->publishes([
             __DIR__ . '/../config/geoip.php' => config_path('geoip.php'),
@@ -55,7 +54,7 @@ class GeoIPServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function registerGeoIpCommands()
+    public function registerGeoIpCommands(): void
     {
         $this->commands([
             Console\Update::class,

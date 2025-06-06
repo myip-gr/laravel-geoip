@@ -8,6 +8,7 @@ use Exception;
 use Illuminate\Support\Arr;
 use InteractionDesignFoundation\GeoIP\Support\HttpClient;
 
+/** @internal */
 class IPApi extends AbstractService
 {
     /**
@@ -15,21 +16,18 @@ class IPApi extends AbstractService
      *
      * @var HttpClient
      */
-    protected $client;
+    protected HttpClient $client;
 
     /**
      * An array of continents.
      *
      * @var array
      */
-    protected $continents;
+    protected array $continents;
 
-    /**
-     * The "booting" method of the service.
-     *
-     * @return void
-     */
-    public function boot()
+    /** The "booting" method of the service. */
+    #[\Override]
+    public function boot(): void
     {
         $base = [
             'base_uri' => 'http://ip-api.com/',
@@ -60,25 +58,26 @@ class IPApi extends AbstractService
      * {@inheritDoc}
      * @throws \RuntimeException
      */
-    public function locate($ip)
+    #[\Override]
+    public function locate($ip): \InteractionDesignFoundation\GeoIP\Location
     {
         // Get data from the client
         $data = $this->client->get('json/' . $ip);
 
         // Verify server response
         if ($this->client->getErrors() !== null) {
-            throw new \RuntimeException("Unexpected ip-api.com response: {$this->client->getErrors()}");
+            throw new \RuntimeException('Unexpected ip-api.com response: ' . $this->client->getErrors());
         }
 
         // Parse body content
-        $json = json_decode($data[0]);
+        $json = json_decode((string) $data[0]);
         if (! is_object($json) || ! property_exists($json, 'status')) {
-            throw new \RuntimeException("Unexpected ip-api.com response: {$json->message}");
+            throw new \RuntimeException('Unexpected ip-api.com response: ' . $json->message);
         }
 
         // Verify response status
         if ($json->status !== 'success') {
-            throw new \RuntimeException("Failed ip-api.com response: {$json->message}");
+            throw new \RuntimeException('Failed ip-api.com response: ' . $json->message);
         }
 
         return $this->hydrate([
@@ -98,11 +97,9 @@ class IPApi extends AbstractService
 
     /**
      * Update function for service.
-     *
-     * @return string
-     * @throws Exception
+     * @throws \Exception
      */
-    public function update()
+    public function update(): string
     {
         $data = $this->client->get('https://dev.maxmind.com/static/csv/codes/country_continent.csv');
 
@@ -111,14 +108,14 @@ class IPApi extends AbstractService
             throw new Exception($this->client->getErrors());
         }
 
-        $lines = explode("\n", $data[0]);
+        $lines = explode("\n", (string) $data[0]);
 
         array_shift($lines);
 
         $output = [];
 
         foreach ($lines as $line) {
-            $arr = str_getcsv($line);
+            $arr = str_getcsv((string) $line);
 
             if (count($arr) < 2) {
                 continue;
@@ -132,16 +129,10 @@ class IPApi extends AbstractService
 
         file_put_contents($path, json_encode($output));
 
-        return "Continent file ({$path}) updated.";
+        return sprintf('Continent file (%s) updated.', $path);
     }
 
-    /**
-     * Get a continent based on country code.
-     *
-     * @param string $code
-     *
-     * @return string
-     */
+    /** Get a continent based on country code. */
     private function getContinent(string $code): string
     {
         return Arr::get($this->continents, $code, 'Unknown');

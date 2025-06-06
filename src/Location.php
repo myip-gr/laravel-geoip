@@ -11,6 +11,7 @@ use Illuminate\Support\Arr;
 /**
  * Class Location
  *
+ *
  * @property string|null $ip
  * @property string|null $iso_code
  * @property string|null $country
@@ -45,25 +46,19 @@ use Illuminate\Support\Arr;
  *     localizations?: array<string, string|null>,
  * }
  * How to use it: @@psalm-import-type LocationArray from \InteractionDesignFoundation\GeoIP\Location
+ *
+ * @template-implements \ArrayAccess<string, mixed>
  */
 class Location implements ArrayAccess
 {
     /**
-     * The location's attributes
-     *
-     * @var array
-     */
-    protected $attributes = [];
-
-    /**
      * Create a new location instance.
      *
-     * @param array $attributes
+     * @param array<string, mixed> $attributes
      * @psalm-param LocationArray $attributes
      */
-    public function __construct(array $attributes = [])
+    public function __construct(protected array $attributes = [])
     {
-        $this->attributes = $attributes;
     }
 
     /**
@@ -73,20 +68,19 @@ class Location implements ArrayAccess
      *
      * @return bool
      */
-    public function same($ip)
+    public function same($ip): bool
     {
-        return $this->getAttribute('ip') == $ip;
+        return $this->getAttribute('ip') === $ip;
     }
 
     /**
      * Set a given attribute on the location.
      *
      * @param string $key
-     * @param mixed $value
      *
      * @return $this
      */
-    public function setAttribute($key, $value)
+    public function setAttribute($key, mixed $value): static
     {
         $this->attributes[$key] = $value;
 
@@ -100,7 +94,7 @@ class Location implements ArrayAccess
      *
      * @return mixed
      */
-    public function getAttribute($key)
+    public function getAttribute(string $key)
     {
         $value = Arr::get($this->attributes, $key);
 
@@ -114,66 +108,54 @@ class Location implements ArrayAccess
         return $value;
     }
 
-    /**
-     * Return the display name of the location.
-     *
-     * @return string
-     */
-    public function getDisplayNameAttribute()
+    /** Return the display name of the location. */
+    public function getDisplayNameAttribute(): ?string
     {
-        return preg_replace('/^,\s/', '', "{$this->city}, {$this->state}");
+        return preg_replace('/^,\s/', '', sprintf('%s, %s', $this->city, $this->state));
     }
 
     /**
-     * Is the location the default.
+     * Is the location the default?
      *
      * @return bool
      */
-    public function getDefaultAttribute($value)
+    public function getDefaultAttribute($value): bool
     {
         return is_null($value) ? false : $value;
     }
 
     /**
      * Get the instance as an array.
-     *
-     * @return array
+     * @psalm-return LocationArray
      */
-    public function toArray()
+    public function toArray(): array
     {
         return $this->attributes;
     }
 
     /**
      * Get the location's attribute
-     *
-     * @param string $key
-     *
      * @return mixed
      */
-    public function __get($key)
+    public function __get(string $key)
     {
         return $this->getAttribute($key);
     }
 
     /**
      * Set the location's attribute
-     *
      * @param string $key
-     * @param mixed $value
      */
-    public function __set($key, $value)
+    public function __set(string $key, mixed $value)
     {
         $this->setAttribute($key, $value);
     }
 
     /**
      * Determine if the given attribute exists.
-     *
-     * @param mixed $offset
-     *
      * @return bool
      */
+    #[\Override]
     public function offsetExists(mixed $offset): bool
     {
         return isset($this->$offset);
@@ -181,11 +163,9 @@ class Location implements ArrayAccess
 
     /**
      * Get the value for a given offset.
-     *
-     * @param mixed $offset
-     *
      * @return mixed
      */
+    #[\Override]
     public function offsetGet(mixed $offset): mixed
     {
         return $this->$offset;
@@ -193,12 +173,9 @@ class Location implements ArrayAccess
 
     /**
      * Set the value for a given offset.
-     *
-     * @param mixed $offset
-     * @param mixed $value
-     *
      * @return void
      */
+    #[\Override]
     public function offsetSet(mixed $offset, mixed $value): void
     {
         $this->$offset = $value;
@@ -206,36 +183,22 @@ class Location implements ArrayAccess
 
     /**
      * Unset the value for a given offset.
-     *
-     * @param mixed $offset
-     *
      * @return void
      */
+    #[\Override]
     public function offsetUnset(mixed $offset): void
     {
         unset($this->$offset);
     }
 
-    /**
-     * Check if the location's attribute is set
-     *
-     * @param $key
-     *
-     * @return bool
-     */
-    public function __isset($key)
+    /** Check if the location's attribute is set */
+    public function __isset($key): bool
     {
         return array_key_exists($key, $this->attributes);
     }
 
-    /**
-     * Unset an attribute on the location.
-     *
-     * @param string $key
-     *
-     * @return void
-     */
-    public function __unset($key)
+    /** Unset an attribute on the location. */
+    public function __unset(string $key): void
     {
         unset($this->attributes[$key]);
     }

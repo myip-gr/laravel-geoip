@@ -4,31 +4,14 @@ declare(strict_types=1);
 
 namespace InteractionDesignFoundation\GeoIP;
 
-use Monolog\Logger;
 use Illuminate\Support\Arr;
 use Illuminate\Cache\CacheManager;
-use Monolog\Handler\StreamHandler;
 
 /**
  * @psalm-import-type LocationArray from \InteractionDesignFoundation\GeoIP\Location
  */
 class GeoIP
 {
-    /**
-     * Illuminate config repository instance.
-     *
-     * @var array
-     */
-    protected $config;
-
-    /**
-     * Remote Machine IP address.
-     * @deprecated Use {@see self::getClientIP()} instead.
-     *
-     * @var string
-     */
-    protected $remote_ip = null;
-
     /**
      * Current location instance.
      *
@@ -39,7 +22,7 @@ class GeoIP
     /**
      * Currency data.
      *
-     * @var array
+     * @var array<string, string>|null
      */
     protected $currencies = null;
 
@@ -50,19 +33,11 @@ class GeoIP
      */
     protected $service;
 
-    /**
-     * Cache manager instance.
-     *
-     * @var \Illuminate\Cache\CacheManager
-     */
-    protected $cache;
+    /** Cache manager instance. */
+    protected \InteractionDesignFoundation\GeoIP\Cache $cache;
 
-    /**
-     * Default Location data.
-     *
-     * @var array
-     */
-    protected $default_location = [
+    /** Default Location data. */
+    protected array $default_location = [
         'ip' => '127.0.0.0',
         'iso_code' => 'US',
         'country' => 'United States',
@@ -85,10 +60,8 @@ class GeoIP
      * @param array $config
      * @param CacheManager $cache
      */
-    public function __construct(array $config, CacheManager $cache)
+    public function __construct(protected array $config, CacheManager $cache)
     {
-        $this->config = $config;
-
         // Create caching instance
         $this->cache = new Cache(
             $cache,
@@ -104,7 +77,7 @@ class GeoIP
         );
 
         // Set IP
-        $this->remote_ip = $this->default_location['ip'] = $this->getClientIP();
+        $this->default_location['ip'] = $this->getClientIP();
     }
 
     /**
@@ -130,16 +103,13 @@ class GeoIP
 
     /**
      * Find location from IP.
-     *
-     * @param string $ip
-     *
      * @return \InteractionDesignFoundation\GeoIP\Location
      * @throws \Exception
      */
-    private function find($ip = null): Location
+    private function find(?string $ip = null): Location
     {
         // If IP not set, user remote IP
-        $ip = $ip ?: $this->remote_ip;
+        $ip = $ip ?: $this->getClientIP();
 
         // Check cache for location
         if ($this->config('cache', 'none') !== 'none' && $location = $this->getCache()->get($ip)) {
@@ -165,8 +135,16 @@ class GeoIP
                 return $location;
             } catch (\Exception $e) {
                 if ($this->config('log_failures', true) === true) {
-                    $log = new Logger('geoip');
-                    $log->pushHandler(new StreamHandler(storage_path('logs/geoip.log'), Logger::ERROR));
+                    if (! class_exists(\Monolog\Logger::class)) {
+                        throw new \RuntimeException(
+                            'monolog/monolog composer package is not installed, but required with the enabled geoip.log_failures config option.',
+                            0,
+                            $e
+                        );
+                    }
+
+                    $log = new \Monolog\Logger('geoip');
+                    $log->pushHandler(new \Monolog\Handler\StreamHandler(storage_path('logs/geoip.log'), \Monolog\Logger::ERROR));
                     $log->error($e);
                 }
             }
@@ -180,7 +158,7 @@ class GeoIP
      *
      * @param string $iso
      *
-     * @return string
+     * @return string|null
      */
     public function getCurrency($iso)
     {
@@ -223,7 +201,7 @@ class GeoIP
      *
      * @return \InteractionDesignFoundation\GeoIP\Cache
      */
-    public function getCache()
+    public function getCache(): \InteractionDesignFoundation\GeoIP\Cache
     {
         return $this->cache;
     }
@@ -233,8 +211,9 @@ class GeoIP
      *
      * @return string
      */
-    public function getClientIP()
+    public function getClientIP(): string
     {
+        /** @see \Symfony\Component\HttpKernel\HttpCache\SubRequestHandler */
         $remotes_keys = [
             'HTTP_X_FORWARDED_IP',
             'HTTP_X_FORWARDED_FOR',
@@ -245,6 +224,7 @@ class GeoIP
             'HTTP_FORWARDED',
             'REMOTE_ADDR',
             'HTTP_X_CLUSTER_CLIENT_IP',
+            'HTTP_CF_CONNECTING_IP',
         ];
 
         foreach ($remotes_keys as $key) {
@@ -267,15 +247,10 @@ class GeoIP
      *
      * @return bool
      */
-    private function isValid($ip): bool
+    private function isValid(string $ip): bool
     {
-        if (! filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4 | FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE)
-            && ! filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV6 | FILTER_FLAG_NO_PRIV_RANGE)
-        ) {
-            return false;
-        }
-
-        return true;
+        return !(! filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4 | FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE)
+            && ! filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV6 | FILTER_FLAG_NO_PRIV_RANGE));
     }
 
     /**
@@ -285,9 +260,14 @@ class GeoIP
      * @param string|null $ip
      *
      * @return bool
+     * @psalm-assert-if-true string $ip
      */
-    private function shouldCache(Location $location, $ip = null): bool
+    private function shouldCache(Location $location, ?string $ip = null): bool
     {
+        if ($ip === null) {
+            return false;
+        }
+
         if ($location->default === true || $location->cached === true) {
             return false;
         }
@@ -302,11 +282,11 @@ class GeoIP
      * Get configuration value.
      *
      * @param string $key
-     * @param mixed $default
+     * @param array|bool|int|null|string $default
      *
      * @return mixed
      */
-    public function config($key, $default = null)
+    public function config($key, mixed $default = null)
     {
         return Arr::get($this->config, $key, $default);
     }

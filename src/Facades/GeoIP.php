@@ -11,16 +11,16 @@ use Illuminate\Support\Facades\Facade;
  * @method static string getClientIP()
  * @method static string getCurrency(string $iso)
  * @method static \InteractionDesignFoundation\GeoIP\Contracts\ServiceInterface getService()
- * @mixin \InteractionDesignFoundation\GeoIP\GeoIP
+ * @see \InteractionDesignFoundation\GeoIP\GeoIP
  */
-class GeoIP extends Facade
+final class GeoIP extends Facade
 {
     /**
      * Get the registered name of the component.
-     *
      * @return string
      */
-    protected static function getFacadeAccessor()
+    #[\Override]
+    protected static function getFacadeAccessor(): string
     {
         return 'geoip';
     }
