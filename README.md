@@ -181,6 +181,13 @@ Thanks to:
 		</tr>
 		<tr>
             <td align="center">
+                <a href="https://github.com/myip-gr">
+                    <img src="https://avatars.githubusercontent.com/u/161315578?v=4" width="100;" alt="myip-gr"/>
+                    <br />
+                    <sub><b>myip-gr</b></sub>
+                </a>
+            </td>
+            <td align="center">
                 <a href="https://github.com/highstrike">
                     <img src="https://avatars.githubusercontent.com/u/2379538?v=4" width="100;" alt="highstrike"/>
                     <br />
@@ -215,6 +222,8 @@ Thanks to:
                     <sub><b>Damien MOLINA</b></sub>
                 </a>
             </td>
+		</tr>
+		<tr>
             <td align="center">
                 <a href="https://github.com/rjp2525">
                     <img src="https://avatars.githubusercontent.com/u/1334865?v=4" width="100;" alt="rjp2525"/>
@@ -222,8 +231,6 @@ Thanks to:
                     <sub><b>Reno Philibert</b></sub>
                 </a>
             </td>
-		</tr>
-		<tr>
             <td align="center">
                 <a href="https://github.com/mikemand">
                     <img src="https://avatars.githubusercontent.com/u/745184?v=4" width="100;" alt="mikemand"/>
@@ -259,6 +266,8 @@ Thanks to:
                     <sub><b>ncla</b></sub>
                 </a>
             </td>
+		</tr>
+		<tr>
             <td align="center">
                 <a href="https://github.com/acidjazz">
                     <img src="https://avatars.githubusercontent.com/u/967369?v=4" width="100;" alt="acidjazz"/>
@@ -266,8 +275,6 @@ Thanks to:
                     <sub><b>kevin olson</b></sub>
                 </a>
             </td>
-		</tr>
-		<tr>
             <td align="center">
                 <a href="https://github.com/jalmatari">
                     <img src="https://avatars.githubusercontent.com/u/2941118?v=4" width="100;" alt="jalmatari"/>
@@ -303,6 +310,8 @@ Thanks to:
                     <sub><b>Rasoul Rahimii</b></sub>
                 </a>
             </td>
+		</tr>
+		<tr>
             <td align="center">
                 <a href="https://github.com/PhoenixPeca">
                     <img src="https://avatars.githubusercontent.com/u/9730242?v=4" width="100;" alt="PhoenixPeca"/>
@@ -310,8 +319,6 @@ Thanks to:
                     <sub><b>Phoenix Eve Aspacio</b></sub>
                 </a>
             </td>
-		</tr>
-		<tr>
             <td align="center">
                 <a href="https://github.com/lloricode">
                     <img src="https://avatars.githubusercontent.com/u/8251344?v=4" width="100;" alt="lloricode"/>
@@ -347,6 +354,8 @@ Thanks to:
                     <sub><b>Dylan DPC</b></sub>
                 </a>
             </td>
+		</tr>
+		<tr>
             <td align="center">
                 <a href="https://github.com/faustbrian">
                     <img src="https://avatars.githubusercontent.com/u/22145591?v=4" width="100;" alt="faustbrian"/>
@@ -354,8 +363,6 @@ Thanks to:
                     <sub><b>Brian Faust</b></sub>
                 </a>
             </td>
-		</tr>
-		<tr>
             <td align="center">
                 <a href="https://github.com/Omranic">
                     <img src="https://avatars.githubusercontent.com/u/406705?v=4" width="100;" alt="Omranic"/>
